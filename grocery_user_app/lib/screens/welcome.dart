@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({Key key}) : super(key: key);
@@ -8,10 +9,44 @@ class Welcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Container(
         child: Column(
           children: [
-            Expanded(child: Container()),
+            Expanded(
+                child: Container(
+              child: CarouselSlider(
+                options: CarouselOptions(height: double.infinity),
+                items: [
+                  Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/slide_1.png',
+                          scale: 1,
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          'Get Fresh Food',
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Text('Get Fresh Food For Your Family'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )),
             Container(
               height: 80,
               width: double.infinity,
