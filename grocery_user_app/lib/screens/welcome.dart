@@ -107,7 +107,13 @@ class Welcome extends StatelessWidget {
                   primary: Colors.green,
                 ),
                 onPressed: () {},
-                child: Text('Get Started'),
+                child: Text(
+                  'Get Started',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             )
           ],
