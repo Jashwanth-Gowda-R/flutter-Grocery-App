@@ -44,6 +44,58 @@ class Welcome extends StatelessWidget {
                       ],
                     ),
                   ),
+                  Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/slide_2.png',
+                          scale: 1,
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          'Fast Delivery',
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Text('Don\'t wait too much,we offer fast delivery'),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/slide_3.png',
+                          scale: 1,
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          'Get Fresh Food',
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Text('Get Fresh Food For Your Family'),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             )),
