@@ -1,7 +1,8 @@
-// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
+// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:grocery_user_app/custom-widgets/welcome_sliders.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({Key key}) : super(key: key);
@@ -16,85 +17,28 @@ class Welcome extends StatelessWidget {
             Expanded(
                 child: Container(
               child: CarouselSlider(
-                options: CarouselOptions(height: double.infinity),
+                options: CarouselOptions(
+                  height: double.infinity,
+                  enableInfiniteScroll: true,
+                  reverse: false,
+                  autoPlay: true,
+                  autoPlayInterval: Duration(seconds: 3),
+                ),
                 items: [
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/slide_1.png',
-                          scale: 1,
-                        ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          'Get Fresh Food',
-                          style: TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Text('Get Fresh Food For Your Family'),
-                      ],
-                    ),
+                  WelcomeSlider(
+                    image: 'assets/images/slide_1.png',
+                    title: 'Get Fresh Food',
+                    subtitle: 'Get Fresh Food For Your Family',
                   ),
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/slide_2.png',
-                          scale: 1,
-                        ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          'Fast Delivery',
-                          style: TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Text('Don\'t wait too much,we offer fast delivery'),
-                      ],
-                    ),
+                  WelcomeSlider(
+                    image: 'assets/images/slide_2.png',
+                    title: 'Secure Payments',
+                    subtitle: 'All your payments are securely processed',
                   ),
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/slide_3.png',
-                          scale: 1,
-                        ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          'Get Fresh Food',
-                          style: TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Text('Get Fresh Food For Your Family'),
-                      ],
-                    ),
+                  WelcomeSlider(
+                    image: 'assets/images/slide_3.png',
+                    title: 'Fast Delivery',
+                    subtitle: 'Don\'t wait too much , we offer fast delivery',
                   ),
                 ],
               ),
