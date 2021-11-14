@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
 
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 class WelcomeSlider extends StatelessWidget {
+  
   var image;
   var title;
   var subtitle;
