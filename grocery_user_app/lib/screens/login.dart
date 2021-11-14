@@ -1,8 +1,9 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grocery_user_app/screens/register.dart';
+import 'package:grocery_user_app/screens/tabs.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key key}) : super(key: key);
@@ -73,7 +74,9 @@ class LoginScreen extends StatelessWidget {
                 width: double.infinity,
                 height: 48,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.offAll(TabScreen());
+                  },
                   child: Text('Login'),
                 ),
               ),
