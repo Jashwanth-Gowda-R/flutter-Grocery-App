@@ -11,7 +11,17 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Create New Account"),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(
+          color: Colors.green,
+        ),
+        title: Text(
+          "Create New Account",
+          style: TextStyle(
+            color: Colors.green,
+          ),
+        ),
       ),
       body: Container(
         child: Padding(
