@@ -10,7 +10,18 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Shani's Shop")),
+      appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          iconTheme: IconThemeData(
+            color: Colors.green,
+          ),
+          title: Text(
+            "Shani's Shop",
+            style: TextStyle(
+              color: Colors.green,
+            ),
+          )),
       body: Container(
         child: Padding(
           padding: const EdgeInsets.all(32.0),
