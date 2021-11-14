@@ -1,14 +1,18 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:grocery_user_app/screens/login.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key key}) : super(key: key);
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Shani's Shop")),
+      appBar: AppBar(
+        title: Text("Create New Account"),
+      ),
       body: Container(
         child: Padding(
           padding: const EdgeInsets.all(32.0),
@@ -39,22 +43,22 @@ class LoginScreen extends StatelessWidget {
                   filled: true,
                   fillColor: Colors.grey[200],
                   border: InputBorder.none,
-                  labelText: "Email Address",
+                  labelText: "Full Name",
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 8,
               ),
               TextField(
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.grey[200],
                   border: InputBorder.none,
-                  labelText: "Email Address",
+                  labelText: "Phone Number",
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 8,
               ),
               TextField(
                 decoration: InputDecoration(
@@ -83,7 +87,7 @@ class LoginScreen extends StatelessWidget {
                 height: 48,
                 child: ElevatedButton(
                   onPressed: () {},
-                  child: Text('Login'),
+                  child: Text('Register'),
                 ),
               ),
               SizedBox(
@@ -91,8 +95,10 @@ class LoginScreen extends StatelessWidget {
               ),
               Container(
                 child: TextButton(
-                  onPressed: () {},
-                  child: Text('Create a New Account'),
+                  onPressed: () {
+                    Get.to(LoginScreen());
+                  },
+                  child: Text('Already Have An Account..?'),
                 ),
               ),
               SizedBox(

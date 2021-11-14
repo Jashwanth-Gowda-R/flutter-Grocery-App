@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:grocery_user_app/screens/register.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key key}) : super(key: key);
@@ -69,7 +71,9 @@ class LoginScreen extends StatelessWidget {
               ),
               Container(
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(RegisterScreen());
+                  },
                   child: Text('Create a New Account'),
                 ),
               ),
