@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:get/get.dart';
 import 'package:grocery_user_app/custom-widgets/welcome_sliders.dart';
+import 'package:grocery_user_app/screens/login.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({Key key}) : super(key: key);
@@ -50,7 +52,9 @@ class Welcome extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   primary: Colors.green,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(LoginScreen());
+                },
                 child: Text(
                   'Get Started',
                   style: TextStyle(
