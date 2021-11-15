@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:grocery_user_app/screens/profile.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({Key key}) : super(key: key);
@@ -20,7 +22,9 @@ class AccountPage extends StatelessWidget {
             title: Text('Jashwanth Gowda R'),
             subtitle: Text('9986621042'),
             trailing: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.to(ProfileScreen());
+              },
               child: Text('Edit'),
             ),
           ),
