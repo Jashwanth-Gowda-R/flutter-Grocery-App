@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 
@@ -10,6 +10,49 @@ class AccountPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Account'),
+      ),
+      body: ListView(
+        children: [
+          ListTile(
+            leading: CircleAvatar(
+              backgroundImage: AssetImage('assets/images/profile.png'),
+            ),
+            title: Text('Jashwanth Gowda R'),
+            subtitle: Text('9986621042'),
+            trailing: TextButton(
+              onPressed: () {},
+              child: Text('Edit'),
+            ),
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.notifications_active_outlined,
+              color: Colors.green,
+            ),
+            title: Text('Notifications'),
+            subtitle: Text('Turn On/Off Notifications'),
+            trailing: Switch(
+              value: true,
+              onChanged: (i) {},
+            ),
+          ),
+          ListTile(
+              leading: Icon(
+                Icons.shopping_bag_outlined,
+                color: Colors.green,
+              ),
+              title: Text('My Orders'),
+              subtitle: Text('Manage My Orders'),
+              trailing: Icon(Icons.arrow_forward)),
+          ListTile(
+              leading: Icon(
+                Icons.note_outlined,
+                color: Colors.green,
+              ),
+              title: Text('My Addresses'),
+              subtitle: Text('Manage Delivery Address'),
+              trailing: Icon(Icons.arrow_forward)),
+        ],
       ),
     );
   }
