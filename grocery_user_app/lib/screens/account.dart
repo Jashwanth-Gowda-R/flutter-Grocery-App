@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:grocery_user_app/screens/addresses.dart';
 import 'package:grocery_user_app/screens/profile.dart';
 
 class AccountPage extends StatelessWidget {
@@ -49,6 +50,9 @@ class AccountPage extends StatelessWidget {
               subtitle: Text('Manage My Orders'),
               trailing: Icon(Icons.arrow_forward)),
           ListTile(
+              onTap: () {
+                Get.to(AddressScreen());
+              },
               leading: Icon(
                 Icons.note_outlined,
                 color: Colors.green,
