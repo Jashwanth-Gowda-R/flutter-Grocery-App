@@ -69,6 +69,23 @@ class MyOrders extends StatelessWidget {
       appBar: AppBar(
         title: Text('My Orders'),
       ),
+      body: ListView.builder(
+          itemCount: _orders.length,
+          itemBuilder: (bc, index) {
+            return ListTile(
+              title: Text('# ${_orders[index]["id"]}'),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('${_orders[index]["dateString"]}'),
+                  Text(
+                      '${_orders[index]["itemsCount"]} items - ₹${_orders[index]["cartTotal"]}')
+                ],
+              ),
+              trailing: Text('${_orders[index]["status"]}'),
+              isThreeLine: true,
+            );
+          }),
     );
   }
 }
