@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, sized_box_for_whitespace, prefer_final_fields
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:grocery_user_app/screens/orders_details.dart';
 
 class MyOrders extends StatelessWidget {
   List _orders = [
@@ -73,6 +75,9 @@ class MyOrders extends StatelessWidget {
           itemCount: _orders.length,
           itemBuilder: (bc, index) {
             return ListTile(
+              onTap: () {
+                Get.to(OrdersDetails());
+              },
               title: Text('# ${_orders[index]["id"]}'),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
