@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grocery_user_app/screens/addresses.dart';
+import 'package:grocery_user_app/screens/orders.dart';
 import 'package:grocery_user_app/screens/profile.dart';
 
 class AccountPage extends StatelessWidget {
@@ -42,6 +43,9 @@ class AccountPage extends StatelessWidget {
             ),
           ),
           ListTile(
+              onTap: () {
+                Get.to(MyOrders());
+              },
               leading: Icon(
                 Icons.shopping_bag_outlined,
                 color: Colors.green,
