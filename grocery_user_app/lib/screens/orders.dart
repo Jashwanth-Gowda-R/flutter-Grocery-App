@@ -76,7 +76,9 @@ class MyOrders extends StatelessWidget {
           itemBuilder: (bc, index) {
             return ListTile(
               onTap: () {
-                Get.to(OrdersDetails());
+                Get.to(OrdersDetails(
+                  orderDetailObj: _orders[index],
+                ));
               },
               title: Text('# ${_orders[index]["id"]}'),
               subtitle: Column(
