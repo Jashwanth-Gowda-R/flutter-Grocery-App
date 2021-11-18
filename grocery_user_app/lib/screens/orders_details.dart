@@ -48,9 +48,12 @@ class OrdersDetails extends StatelessWidget {
                       itemCount: orderDetailObj['cartItems'].length,
                       itemBuilder: (bc, index) {
                         return ListTile(
-                          title: Text(''),
-                          subtitle: Text(''),
-                          trailing: Text(''),
+                          title: Text(
+                              '${orderDetailObj["cartItems"][index]['title']}'),
+                          subtitle: Text(
+                              '₹${orderDetailObj["cartItems"][index]['price']} x qty ${orderDetailObj["cartItems"][index]['qty']}'),
+                          trailing: Text(
+                              '₹${orderDetailObj["cartItems"][index]['total']}'),
                         );
                       }))
             ],
