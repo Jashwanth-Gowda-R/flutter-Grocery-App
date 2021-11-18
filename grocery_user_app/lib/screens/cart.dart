@@ -38,9 +38,17 @@ class CartPage extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: ListView.builder(itemBuilder: (bc, index) {
-                return CartItems();
-              }),
+              child: ListView.builder(
+                  itemCount: _cartItems.length,
+                  itemBuilder: (bc, index) {
+                    return CartItems(
+                      imageURL: _cartItems[index]['imageURL'],
+                      title: _cartItems[index]['title'],
+                      qty: _cartItems[index]['qty'],
+                      price: _cartItems[index]['price'],
+                      total: _cartItems[index]['total'],
+                    );
+                  }),
             ),
             ListTile(
               title: Text('Delivery Address'),
