@@ -55,7 +55,26 @@ class OrdersDetails extends StatelessWidget {
                           trailing: Text(
                               '₹${orderDetailObj["cartItems"][index]['total']}'),
                         );
-                      }))
+                      })),
+              Container(
+                  color: Colors.green,
+                  height: 80,
+                  padding: EdgeInsets.all(8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Total',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16)),
+                      Text('₹${orderDetailObj['cartTotal']}',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20)),
+                    ],
+                  ))
             ],
           ),
         ));
