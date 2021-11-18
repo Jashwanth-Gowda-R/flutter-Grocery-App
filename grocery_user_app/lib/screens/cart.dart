@@ -1,9 +1,32 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, prefer_final_fields, must_be_immutable, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
+import 'package:grocery_user_app/custom-widgets/cart_items.dart';
 
 class CartPage extends StatelessWidget {
-  const CartPage({Key key}) : super(key: key);
+  List _cartItems = [
+    {
+      "imageURL": "assets/images/products/1.jpg",
+      "title": "Carrot",
+      "qty": 1,
+      "price": 20.0,
+      "total": 20.0,
+    },
+    {
+      "imageURL": "assets/images/products/5.jpg",
+      "title": "Raw Meat",
+      "qty": 2,
+      "price": 320.0,
+      "total": 640.0,
+    },
+    {
+      "imageURL": "assets/images/products/8.jpg",
+      "title": "Orange",
+      "qty": 1,
+      "price": 170.0,
+      "total": 170.0,
+    }
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +38,9 @@ class CartPage extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: Container(),
+              child: ListView.builder(itemBuilder: (bc, index) {
+                return CartItems();
+              }),
             ),
             ListTile(
               title: Text('Delivery Address'),
