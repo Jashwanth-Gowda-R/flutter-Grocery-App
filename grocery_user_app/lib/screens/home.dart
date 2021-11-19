@@ -3,6 +3,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_user_app/custom-widgets/categories_badge.dart';
+import 'package:grocery_user_app/custom-widgets/product_card.dart';
 
 class HomePage extends StatelessWidget {
   List _products = [
@@ -124,8 +125,10 @@ class HomePage extends StatelessWidget {
                   ),
                   itemCount: _products.length,
                   itemBuilder: (bc, index) {
-                    return Container(
-                      child: Text(_products[index]['title']),
+                    return ProductCard(
+                      title: _products[index]['title'],
+                      imageURL: _products[index]['imageUrl'],
+                      price: _products[index]['price'],
                     );
                   }),
             ),
