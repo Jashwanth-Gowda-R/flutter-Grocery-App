@@ -33,12 +33,14 @@ class ProductCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
+                  Expanded(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           '$title',
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.white,
@@ -56,7 +58,13 @@ class ProductCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Container(),
+                  Container(
+                    child: ElevatedButton(
+                        onPressed: () {},
+                        child: Icon(
+                          Icons.add,
+                        )),
+                  ),
                 ],
               ),
             ),

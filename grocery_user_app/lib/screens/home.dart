@@ -120,8 +120,8 @@ class HomePage extends StatelessWidget {
                   physics: NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
+                    crossAxisSpacing: 4,
+                    mainAxisSpacing: 4,
                   ),
                   itemCount: _products.length,
                   itemBuilder: (bc, index) {
