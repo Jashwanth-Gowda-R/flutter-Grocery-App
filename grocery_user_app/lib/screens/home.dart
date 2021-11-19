@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, prefer_final_fields, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, prefer_final_fields, sized_box_for_whitespace, use_key_in_widget_constructors, must_be_immutable
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -126,13 +126,12 @@ class HomePage extends StatelessWidget {
                   itemCount: _products.length,
                   itemBuilder: (bc, index) {
                     return ProductCard(
+                      imageURL: _products[index]["imageURL"],
                       title: _products[index]['title'],
-                      imageURL: _products[index]['imageUrl'],
                       price: _products[index]['price'],
                     );
                   }),
             ),
-            Container(),
           ],
         ),
       ),
