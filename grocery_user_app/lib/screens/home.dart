@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, prefer_final_fields
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, prefer_final_fields, sized_box_for_whitespace
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -113,7 +113,22 @@ class HomePage extends StatelessWidget {
                     );
                   }),
             ),
-            Container(),
+            Container(
+              child: GridView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                  ),
+                  itemCount: _products.length,
+                  itemBuilder: (bc, index) {
+                    return Container(
+                      child: Text(_products[index]['title']),
+                    );
+                  }),
+            ),
             Container(),
           ],
         ),
