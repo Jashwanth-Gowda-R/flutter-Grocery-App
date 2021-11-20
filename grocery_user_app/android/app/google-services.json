@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "554657249926",
+    "project_id": "shani-grocery-app",
+    "storage_bucket": "shani-grocery-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554657249926:android:506fe2243b2955f73a2f07",
+        "android_client_info": {
+          "package_name": "com.shani.grocery_user_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "554657249926-561sj2q4bgludon2gtjtus9m94kblkur.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shani.grocery_user_app",
+            "certificate_hash": "857073a618ebdeb9395b425069665a5740e517bd"
+          }
+        },
+        {
+          "client_id": "554657249926-vfajul31gui8vtfd08jdjra50o02kbfh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzhvrH-gTAgWE_yPI55kN-i6aoPJcO4Ls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "554657249926-vfajul31gui8vtfd08jdjra50o02kbfh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
