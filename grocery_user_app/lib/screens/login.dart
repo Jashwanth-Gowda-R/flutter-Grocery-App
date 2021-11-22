@@ -19,9 +19,14 @@ class LoginScreen extends StatelessWidget {
     _auth
         .signInWithEmailAndPassword(email: email, password: password)
         .then((res) {
-      print(res);
+      // print(res);
+      Get.offAll(TabScreen());
     }).catchError((e) {
-      print(e);
+      // print(e);
+      Get.showSnackbar(GetBar(
+        message: e.toString(),
+        duration: Duration(seconds: 5),
+      ));
     });
   }
 
