@@ -1,12 +1,29 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, sized_box_for_whitespace, prefer_final_fields
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:grocery_user_app/screens/register.dart';
 import 'package:grocery_user_app/screens/tabs.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key key}) : super(key: key);
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  TextEditingController emailField = TextEditingController();
+  TextEditingController passwordField = TextEditingController();
+
+  login() {
+    var email = emailField.text;
+    var password = passwordField.text;
+    _auth
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((res) {
+      print(res);
+    }).catchError((e) {
+      print(e);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +66,7 @@ class LoginScreen extends StatelessWidget {
                 height: 20,
               ),
               TextField(
+                controller: emailField,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.grey[200],
@@ -60,6 +78,8 @@ class LoginScreen extends StatelessWidget {
                 height: 8,
               ),
               TextField(
+                controller: passwordField,
+                obscureText: true,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.grey[200],
@@ -75,7 +95,8 @@ class LoginScreen extends StatelessWidget {
                 height: 48,
                 child: ElevatedButton(
                   onPressed: () {
-                    Get.offAll(TabScreen());
+                    login();
+                    // Get.offAll(TabScreen());
                   },
                   child: Text('Login'),
                 ),
