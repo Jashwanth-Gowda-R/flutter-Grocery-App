@@ -3,8 +3,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:grocery_user_app/screens/login.dart';
+// import 'package:grocery_user_app/screens/login.dart';
 import 'package:grocery_user_app/screens/tabs.dart';
+import 'package:grocery_user_app/screens/welcome.dart';
 
 class Validate extends StatefulWidget {
   const Validate({Key key}) : super(key: key);
@@ -32,7 +33,13 @@ class _ValidateState extends State<Validate> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    validate();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return isloggin ? TabScreen() : LoginScreen();
+    return isloggin ? TabScreen() : Welcome();
   }
 }
