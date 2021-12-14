@@ -43,16 +43,17 @@ class AccountPage extends StatelessWidget {
             ),
           ),
           ListTile(
-              onTap: () {
-                Get.to(MyOrders());
-              },
-              leading: Icon(
-                Icons.shopping_bag_outlined,
-                color: Colors.green,
-              ),
-              title: Text('My Orders'),
-              subtitle: Text('Manage My Orders'),
-              trailing: Icon(Icons.arrow_forward)),
+            onTap: () {
+              Get.to(MyOrders());
+            },
+            leading: Icon(
+              Icons.shopping_bag_outlined,
+              color: Colors.green,
+            ),
+            title: Text('My Orders'),
+            subtitle: Text('Manage My Orders'),
+            trailing: Icon(Icons.arrow_forward),
+          ),
           ListTile(
               onTap: () {
                 Get.to(AddressScreen());

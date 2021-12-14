@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:grocery_user_app/screens/login.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProfileScreen extends StatelessWidget {
   FirebaseAuth _auth = FirebaseAuth.instance;
