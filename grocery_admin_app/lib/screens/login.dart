@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grocery_admin_app/screens/tabs.dart';
@@ -7,7 +9,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login"),
+        title: Center(child: Text("Login")),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -24,7 +26,7 @@ class LoginScreen extends StatelessWidget {
               ),
               SizedBox(height: 16),
               Text(
-                "Sundar's shop",
+                "Shani's shop",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 32),
