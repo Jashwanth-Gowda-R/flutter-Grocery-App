@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grocery_admin_app/screens/login.dart';
 
-
 void main() {
   runApp(MyApp());
 }
@@ -11,12 +10,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       home: LoginScreen(),
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-        primarySwatch: Colors.green,
-        primaryColor: Colors.green
-      ),
+          scaffoldBackgroundColor: Colors.white,
+          primarySwatch: Colors.green,
+          primaryColor: Colors.green),
     );
   }
 }

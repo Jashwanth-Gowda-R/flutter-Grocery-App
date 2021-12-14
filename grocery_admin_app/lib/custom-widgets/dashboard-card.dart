@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 class DashBoardCard extends StatelessWidget {
@@ -25,7 +27,10 @@ class DashBoardCard extends StatelessWidget {
           children: [
             Text(
               "${title.toUpperCase()}",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+              ),
             ),
             SizedBox(
               height: 12,
