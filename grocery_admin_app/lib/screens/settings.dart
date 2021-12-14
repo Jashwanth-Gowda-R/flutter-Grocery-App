@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grocery_admin_app/screens/profile.dart';
@@ -16,7 +18,7 @@ class SettingsScreen extends StatelessWidget {
               leading: CircleAvatar(
                 backgroundImage: AssetImage("assets/images/profile.png"),
               ),
-              title: Text("Sundar Shop"),
+              title: Text("Shani Shop"),
               subtitle: Text("234, SF St, 312"),
               trailing: TextButton(
                 onPressed: () {
