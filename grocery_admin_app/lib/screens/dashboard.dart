@@ -108,7 +108,11 @@ class DashBoardScreen extends StatelessWidget {
             ),
             Text(
               "ON GOING ORDERS",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(
+                color: Colors.green,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             SizedBox(
               height: 12,

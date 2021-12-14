@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_unnecessary_containers, file_names, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 class OrderDetail extends StatelessWidget {
@@ -20,7 +22,7 @@ class OrderDetail extends StatelessWidget {
           children: [
             ListTile(
               title: Text("Customer"),
-              subtitle: Text("Sundaravel"),
+              subtitle: Text("Rajarajeshwari"),
               trailing: TextButton(
                 child: Text("Call"),
                 onPressed: () {},
