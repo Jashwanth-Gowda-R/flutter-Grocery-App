@@ -6,8 +6,21 @@ import 'package:get/get.dart';
 import 'package:grocery_admin_app/screens/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   FirebaseAuth _auth = FirebaseAuth.instance;
+
+  FirebaseFirestore _db = FirebaseFirestore.instance;
+
+  TextEditingController emailField = TextEditingController();
+  TextEditingController storeField = TextEditingController();
+  TextEditingController mobileField = TextEditingController();
+  TextEditingController addressField = TextEditingController();
+
   logout() {
     _auth
         .signOut()
@@ -20,6 +33,28 @@ class ProfileScreen extends StatelessWidget {
         duration: Duration(seconds: 5),
       ));
     });
+  }
+
+  readStoreDetails() {
+    _db.collection('settings').doc('store').get().then((res) {
+      print(res);
+      print(res.id);
+      print(res.data());
+      setState(() {
+        storeField.text = res.data()['name'];
+        mobileField.text = res.data()['mobile'];
+        addressField.text = res.data()['address'];
+        emailField.text = res.data()['email'];
+      });
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    readStoreDetails();
   }
 
   @override
@@ -40,6 +75,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               SizedBox(height: 40),
               TextField(
+                controller: storeField,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.grey[200],
@@ -49,6 +85,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               SizedBox(height: 12),
               TextField(
+                controller: emailField,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.grey[200],
@@ -58,6 +95,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               SizedBox(height: 12),
               TextField(
+                controller: mobileField,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.grey[200],
@@ -68,6 +106,7 @@ class ProfileScreen extends StatelessWidget {
               SizedBox(height: 12),
               TextField(
                 maxLines: 4,
+                controller: addressField,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.grey[200],
