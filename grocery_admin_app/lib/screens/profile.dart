@@ -51,6 +51,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
+  updateStoreDetails() {
+    _db.collection('settings').doc('store').update({
+      "address": addressField.text,
+      "name": storeField.text,
+      "mobile": mobileField.text,
+      "email": emailField.text,
+    }).then((res) {
+      print("updated store details");
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -130,7 +143,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   onPressed: () {
-                    Get.back();
+                    updateStoreDetails();
+                    // Get.back();
                   },
                 ),
               ),
