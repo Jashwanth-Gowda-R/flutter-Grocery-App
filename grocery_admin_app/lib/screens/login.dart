@@ -1,10 +1,32 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grocery_admin_app/screens/tabs.dart';
 
 class LoginScreen extends StatelessWidget {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  TextEditingController emailField = TextEditingController();
+  TextEditingController passwordField = TextEditingController();
+
+  login() {
+    var email = (emailField.text).trim().toLowerCase();
+    var password = passwordField.text;
+    _auth
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((res) {
+      // print(res);
+      Get.offAll(TabsScreen());
+    }).catchError((e) {
+      // print(e);
+      Get.showSnackbar(GetBar(
+        message: e.toString(),
+        duration: Duration(seconds: 5),
+      ));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,6 +53,8 @@ class LoginScreen extends StatelessWidget {
               ),
               SizedBox(height: 32),
               TextField(
+                controller: emailField,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.grey[200],
@@ -40,6 +64,7 @@ class LoginScreen extends StatelessWidget {
               ),
               SizedBox(height: 16),
               TextField(
+                controller: passwordField,
                 obscureText: true,
                 decoration: InputDecoration(
                   filled: true,
@@ -55,7 +80,8 @@ class LoginScreen extends StatelessWidget {
                 child: ElevatedButton(
                   child: Text("LOGIN"),
                   onPressed: () {
-                    Get.offAll(TabsScreen());
+                    login();
+                    // Get.offAll(TabsScreen());
                   },
                 ),
               ),
