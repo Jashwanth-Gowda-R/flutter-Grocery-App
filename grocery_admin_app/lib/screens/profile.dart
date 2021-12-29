@@ -1,10 +1,16 @@
 // ignore_for_file: prefer_const_constructors
 
+// import 'dart:html';
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grocery_admin_app/screens/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -15,6 +21,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   FirebaseFirestore _db = FirebaseFirestore.instance;
+
+  FirebaseStorage _storage = FirebaseStorage.instance;
 
   TextEditingController emailField = TextEditingController();
   TextEditingController storeField = TextEditingController();
@@ -64,6 +72,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
+  uploadProfileImage() async {
+    var picker = ImagePicker();
+    var pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile.path.length != null) {
+      File image = File(pickedFile.path);
+      _storage
+          .ref()
+          .child('store')
+          .child('storeImage')
+          .putFile(image)
+          .then((res) {
+        print(res);
+        res.ref.getDownloadURL().then((url) {
+          print('uploadedm url' + url);
+          _db.collection('settings').doc('store').update({
+            "imageURl": url,
+          }).then((res) {
+            print("updated store image url details");
+          }).catchError((e) {
+            print(e);
+          });
+        });
+      }).catchError((e) => {print(e)});
+    } else {
+      print('no file picked!');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -82,9 +118,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           padding: EdgeInsets.all(32.0),
           child: Column(
             children: [
-              CircleAvatar(
-                backgroundImage: AssetImage("assets/images/profile.png"),
-                radius: 60,
+              GestureDetector(
+                onTap: () {
+                  uploadProfileImage();
+                },
+                child: CircleAvatar(
+                  backgroundImage: AssetImage("assets/images/profile.png"),
+                  radius: 60,
+                ),
               ),
               SizedBox(height: 40),
               TextField(
