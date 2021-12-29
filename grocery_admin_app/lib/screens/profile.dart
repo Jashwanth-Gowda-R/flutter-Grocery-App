@@ -29,6 +29,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController mobileField = TextEditingController();
   TextEditingController addressField = TextEditingController();
 
+  var profileImage = 'http://placehold.it/120x120';
+
   logout() {
     _auth
         .signOut()
@@ -44,7 +46,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   readStoreDetails() {
-    _db.collection('settings').doc('store').get().then((res) {
+    _db.collection('settings').doc('store').snapshots().listen((res) {
       print(res);
       print(res.id);
       print(res.data());
@@ -53,9 +55,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         mobileField.text = res.data()['mobile'];
         addressField.text = res.data()['address'];
         emailField.text = res.data()['email'];
+        profileImage = res.data()['imageURl'];
       });
-    }).catchError((e) {
-      print(e);
     });
   }
 
@@ -123,7 +124,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   uploadProfileImage();
                 },
                 child: CircleAvatar(
-                  backgroundImage: AssetImage("assets/images/profile.png"),
+                  backgroundImage: NetworkImage(profileImage),
                   radius: 60,
                 ),
               ),
