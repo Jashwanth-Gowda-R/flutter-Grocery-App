@@ -5,14 +5,52 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ManageCategoryScreen extends StatelessWidget {
+  bool canEdit = false;
+  var category = {};
+
   FirebaseFirestore _db = FirebaseFirestore.instance;
   TextEditingController categoryField = TextEditingController();
+
+  ManageCategoryScreen({this.canEdit, this.category}) {
+    categoryField.text = category['title'];
+  }
+
+  add() {
+    _db
+        .collection('categories')
+        .add({'title': categoryField.text}).then((value) {
+      Get.back();
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  update() {
+    _db
+        .collection('categories')
+        .doc(category['id'])
+        .update({"title": categoryField.text}).then((value) {
+      Get.back();
+    }).catchError((e) {
+      print(e);
+    });
+    ;
+  }
+
+  delete() {
+    _db.collection('categories').doc(category['id']).delete().then((value) {
+      Get.back();
+    }).catchError((e) {
+      print(e);
+    });
+    ;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Manage Category"),
+        title: Text("${canEdit ? 'Edit' : 'Add'} Category"),
       ),
       body: Container(
         padding: EdgeInsets.all(32.0),
@@ -39,22 +77,26 @@ class ManageCategoryScreen extends StatelessWidget {
                   primary: Colors.green,
                 ),
                 child: Text(
-                  "Save Changes",
+                  "${canEdit ? 'Update' : 'Add'}",
                   style: TextStyle(
                     fontSize: 16,
                   ),
                 ),
                 onPressed: () {
-                  _db
-                      .collection('categories')
-                      .add({'title': categoryField.text}).then((value) {
-                    Get.back();
-                  }).catchError((e) {
-                    print(e);
-                  });
+                  canEdit ? update() : add();
                 },
               ),
             ),
+            canEdit
+                ? TextButton(
+                    onPressed: () {
+                      delete();
+                    },
+                    child: Text("Delete",
+                        style: TextStyle(
+                          fontSize: 16,
+                        )))
+                : Container(),
           ],
         ),
       ),

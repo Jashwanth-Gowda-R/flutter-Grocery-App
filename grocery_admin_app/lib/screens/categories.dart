@@ -56,7 +56,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () {
-              Get.to(ManageCategoryScreen());
+              Get.to(ManageCategoryScreen(
+                canEdit: false,
+                category: {},
+              ));
             },
           )
         ],
@@ -69,7 +72,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               title: Text("${_categories[index]['title']}"),
               trailing: Icon(Icons.edit_outlined),
               onTap: () {
-                Get.to(ManageCategoryScreen());
+                Get.to(ManageCategoryScreen(
+                  canEdit: true,
+                  category: _categories[index],
+                ));
               },
             );
           },
