@@ -13,19 +13,32 @@ class CategoriesScreen extends StatefulWidget {
 class _CategoriesScreenState extends State<CategoriesScreen> {
   FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  List _categories = [
-    "All",
-    "Vegetables",
-    "Meat",
-    "Fruits",
-    "Snacks",
-    "Drinks",
-    "Oils",
-    "Daily Needs"
-  ];
+  // List _categories = [
+  //   "All",
+  //   "Vegetables",
+  //   "Meat",
+  //   "Fruits",
+  //   "Snacks",
+  //   "Drinks",
+  //   "Oils",
+  //   "Daily Needs"
+  // ];
+
+  var _categories = [];
 
   fetchCategories() {
-    // _db.collection('').doc('').get().then((value) {}).catchError((e) {});
+    _db.collection('categories').snapshots().listen((value) {
+      var temp = [];
+      value.docs.forEach((element) {
+        temp.add({
+          "id": element.id,
+          "title": element.data()['title'],
+        });
+      });
+      setState(() {
+        _categories = temp;
+      });
+    });
   }
 
   @override
@@ -53,7 +66,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           itemCount: _categories.length,
           itemBuilder: (bc, index) {
             return ListTile(
-              title: Text("${_categories[index]}"),
+              title: Text("${_categories[index]['title']}"),
               trailing: Icon(Icons.edit_outlined),
               onTap: () {
                 Get.to(ManageCategoryScreen());
