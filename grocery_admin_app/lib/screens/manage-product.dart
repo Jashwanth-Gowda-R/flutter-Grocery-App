@@ -24,6 +24,10 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
   var _categories = [];
   var _selectedId = 'O1rnoIvwSe6mq4yrSZNk';
 
+  TextEditingController titleField = TextEditingController();
+  TextEditingController priceField = TextEditingController();
+  TextEditingController descriptionField = TextEditingController();
+
   fetchCategories() {
     _db.collection('categories').snapshots().listen((value) {
       var temp = [];
@@ -39,6 +43,19 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
     });
   }
 
+  addProduct() {
+    _db.collection('products').add({
+      'title': titleField.text,
+      'price': priceField.text,
+      'categoryId': _selectedId,
+      'description': descriptionField.text,
+    }).then((value) {
+      Get.back();
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -48,6 +65,7 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text("Manage Product"),
       ),
@@ -62,6 +80,7 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
               ),
               SizedBox(height: 40),
               TextField(
+                controller: titleField,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.grey[200],
@@ -71,6 +90,7 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
               ),
               SizedBox(height: 12),
               TextField(
+                controller: priceField,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.grey[200],
@@ -88,7 +108,7 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
                       value: _selectedId,
                       onChanged: (v) {
                         setState(() {
-                          _selectedId=v;
+                          _selectedId = v;
                         });
                       },
                       items: _categories.map((category) {
@@ -102,6 +122,7 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
                 ),
               ),
               TextField(
+                controller: descriptionField,
                 maxLines: 4,
                 decoration: InputDecoration(
                   filled: true,
@@ -126,7 +147,8 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
                     ),
                   ),
                   onPressed: () {
-                    Get.back();
+                    addProduct();
+                    // Get.back();
                   },
                 ),
               ),
