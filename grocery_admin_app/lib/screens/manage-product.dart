@@ -1,19 +1,50 @@
 // ignore_for_file: file_names, prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ManageProductScreen extends StatelessWidget {
-  List _categories = [
-    "All",
-    "Vegetables",
-    "Meat",
-    "Fruits",
-    "Snacks",
-    "Drinks",
-    "Oils",
-    "Daily Needs"
-  ];
+class ManageProductScreen extends StatefulWidget {
+  @override
+  State<ManageProductScreen> createState() => _ManageProductScreenState();
+}
+
+class _ManageProductScreenState extends State<ManageProductScreen> {
+  // List _categories = [
+  //   "All",
+  //   "Vegetables",
+  //   "Meat",
+  //   "Fruits",
+  //   "Snacks",
+  //   "Drinks",
+  //   "Oils",
+  //   "Daily Needs"
+  // ];
+  FirebaseFirestore _db = FirebaseFirestore.instance;
+  var _categories = [];
+  var _selectedId = 'O1rnoIvwSe6mq4yrSZNk';
+
+  fetchCategories() {
+    _db.collection('categories').snapshots().listen((value) {
+      var temp = [];
+      value.docs.forEach((element) {
+        temp.add({
+          "id": element.id,
+          "title": element.data()['title'],
+        });
+      });
+      setState(() {
+        _categories = temp;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCategories();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,12 +85,16 @@ class ManageProductScreen extends StatelessWidget {
                   children: [
                     Text('Category'),
                     DropdownButton(
-                      value: "Oils",
-                      onChanged: (v) {},
-                      items: _categories.map((e) {
+                      value: _selectedId,
+                      onChanged: (v) {
+                        setState(() {
+                          _selectedId=v;
+                        });
+                      },
+                      items: _categories.map((category) {
                         return DropdownMenuItem(
-                          child: Text(e),
-                          value: e,
+                          child: Text(category['title']),
+                          value: category['id'],
                         );
                       }).toList(),
                     )
