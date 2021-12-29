@@ -1,8 +1,12 @@
 // ignore_for_file: file_names, prefer_const_constructors
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ManageProductScreen extends StatefulWidget {
   @override
@@ -28,6 +32,9 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
   TextEditingController priceField = TextEditingController();
   TextEditingController descriptionField = TextEditingController();
 
+  FirebaseStorage _storage = FirebaseStorage.instance;
+  var imageurl = 'http://placehold.it/120x120';
+
   fetchCategories() {
     _db.collection('categories').snapshots().listen((value) {
       var temp = [];
@@ -49,11 +56,37 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
       'price': priceField.text,
       'categoryId': _selectedId,
       'description': descriptionField.text,
+      "imgURL": imageurl,
     }).then((value) {
       Get.back();
     }).catchError((e) {
       print(e);
     });
+  }
+
+  uploadProductImage() async {
+    var picker = ImagePicker();
+    var pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile.path.length != null) {
+      File image = File(pickedFile.path);
+      var filepath = (DateTime.now().millisecondsSinceEpoch).toString();
+      _storage
+          .ref()
+          .child('products')
+          .child(filepath)
+          .putFile(image)
+          .then((res) {
+        print(res);
+        res.ref.getDownloadURL().then((url) {
+          print('uploadedm url' + url);
+          setState(() {
+            imageurl = url;
+          });
+        });
+      }).catchError((e) => {print(e)});
+    } else {
+      print('no file picked!');
+    }
   }
 
   @override
@@ -74,9 +107,14 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
           padding: EdgeInsets.all(32.0),
           child: Column(
             children: [
-              CircleAvatar(
-                backgroundImage: AssetImage("assets/images/profile.png"),
-                radius: 60,
+              GestureDetector(
+                onTap: () {
+                  uploadProductImage();
+                },
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(imageurl),
+                  radius: 60,
+                ),
               ),
               SizedBox(height: 40),
               TextField(
