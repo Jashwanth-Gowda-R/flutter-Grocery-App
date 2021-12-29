@@ -1,9 +1,13 @@
 // ignore_for_file: file_names, prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ManageCategoryScreen extends StatelessWidget {
+  FirebaseFirestore _db = FirebaseFirestore.instance;
+  TextEditingController categoryField = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,6 +21,7 @@ class ManageCategoryScreen extends StatelessWidget {
         child: Column(
           children: [
             TextField(
+              controller: categoryField,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.grey[200],
@@ -40,7 +45,13 @@ class ManageCategoryScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Get.back();
+                  _db
+                      .collection('categories')
+                      .add({'title': categoryField.text}).then((value) {
+                    Get.back();
+                  }).catchError((e) {
+                    print(e);
+                  });
                 },
               ),
             ),
