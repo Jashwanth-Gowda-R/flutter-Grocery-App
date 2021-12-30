@@ -1,10 +1,41 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grocery_admin_app/screens/profile.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  var profileImage = 'http://placehold.it/120x120';
+  var title;
+  var address;
+
+  FirebaseFirestore _db = FirebaseFirestore.instance;
+
+  readStoreDetails() {
+    _db.collection('settings').doc('store').snapshots().listen((res) {
+      print(res);
+      print(res.id);
+      print(res.data());
+      setState(() {
+        profileImage = res.data()['imageURl'];
+        title = res.data()['name'];
+        address = res.data()['address'];
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    readStoreDetails();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,10 +47,11 @@ class SettingsScreen extends StatelessWidget {
           children: [
             ListTile(
               leading: CircleAvatar(
-                backgroundImage: AssetImage("assets/images/profile.png"),
+                backgroundImage: NetworkImage(profileImage),
               ),
-              title: Text("Shani Shop"),
-              subtitle: Text("234, SF St, 312"),
+              title: Text("${title != null ? title : 'Shani Shop'}"),
+              subtitle: Text(
+                  "${address != null ? address : 'Shakthi Garden,Bangalore'}"),
               trailing: TextButton(
                 onPressed: () {
                   Get.to(ProfileScreen());

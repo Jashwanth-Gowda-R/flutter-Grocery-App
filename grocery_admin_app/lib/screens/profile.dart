@@ -69,6 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       "mobile": mobileField.text,
       "email": emailField.text,
     }).then((res) {
+      Get.back();
       print("updated store details");
     }).catchError((e) {
       print(e);
