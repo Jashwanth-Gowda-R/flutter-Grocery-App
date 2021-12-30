@@ -95,7 +95,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () {
-              Get.to(ManageProductScreen());
+              Get.to(ManageProductScreen(canEdit: false, product: {}));
             },
           )
         ],
@@ -122,7 +122,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         Icons.edit_outlined,
                       ),
                       onPressed: () {
-                        Get.to(ManageProductScreen());
+                        Get.to(ManageProductScreen(
+                          canEdit: true,
+                          product: _products[index],
+                        ));
                       },
                     ),
                   );

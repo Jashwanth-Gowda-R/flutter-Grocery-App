@@ -9,6 +9,11 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ManageProductScreen extends StatefulWidget {
+  bool canEdit = false;
+  var product = {};
+
+  ManageProductScreen({this.canEdit, this.product});
+
   @override
   State<ManageProductScreen> createState() => _ManageProductScreenState();
 }
@@ -64,6 +69,30 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
     });
   }
 
+  updateProduct() {
+    _db.collection('products').doc(widget.product['id']).update({
+      "title": titleField.text,
+      'price': double.parse(priceField.text),
+      'categoryId': _selectedId,
+      'description': descriptionField.text,
+      "imgURL": imageurl,
+    }).then((value) {
+      Get.back();
+    }).catchError((e) {
+      print(e);
+    });
+    ;
+  }
+
+  deleteProduct() {
+    _db.collection('products').doc(widget.product['id']).delete().then((value) {
+      Get.back();
+    }).catchError((e) {
+      print(e);
+    });
+    ;
+  }
+
   uploadProductImage() async {
     var picker = ImagePicker();
     var pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -93,6 +122,15 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
   void initState() {
     super.initState();
     fetchCategories();
+    if (widget.canEdit) {
+      titleField.text = widget.product['title'];
+      priceField.text = widget.product['price'].toString();
+      descriptionField.text = widget.product['description'];
+      _selectedId = widget.product['categoryId'];
+      imageurl = widget.product['imgURL'] != null
+          ? widget.product['imgURL']
+          : 'http://placehold.it/120x120';
+    }
   }
 
   @override
@@ -100,7 +138,7 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        title: Text("Manage Product"),
+        title: Text("${widget.canEdit ? 'Edit' : "Add"} Product"),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -179,17 +217,28 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
                     primary: Colors.green,
                   ),
                   child: Text(
-                    "Save Changes",
+                    "${widget.canEdit ? 'Update' : "Add"} Product",
                     style: TextStyle(
                       fontSize: 16,
                     ),
                   ),
                   onPressed: () {
-                    addProduct();
+                    widget.canEdit ? updateProduct() : addProduct();
+                    // addProduct();
                     // Get.back();
                   },
                 ),
               ),
+              widget.canEdit
+                  ? TextButton(
+                      onPressed: () {
+                        deleteProduct();
+                      },
+                      child: Text("Delete",
+                          style: TextStyle(
+                            fontSize: 16,
+                          )))
+                  : Container(),
             ],
           ),
         ),
