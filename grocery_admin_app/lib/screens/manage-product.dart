@@ -53,7 +53,7 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
   addProduct() {
     _db.collection('products').add({
       'title': titleField.text,
-      'price': priceField.text,
+      'price': double.parse(priceField.text),
       'categoryId': _selectedId,
       'description': descriptionField.text,
       "imgURL": imageurl,
