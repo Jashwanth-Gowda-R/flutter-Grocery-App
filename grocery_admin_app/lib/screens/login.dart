@@ -1,31 +1,34 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
 
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:grocery_admin_app/controllers/auth.dart';
 import 'package:grocery_admin_app/screens/tabs.dart';
 
 class LoginScreen extends StatelessWidget {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  // FirebaseAuth _auth = FirebaseAuth.instance;
   TextEditingController emailField = TextEditingController();
   TextEditingController passwordField = TextEditingController();
 
-  login() {
-    var email = (emailField.text).trim().toLowerCase();
-    var password = passwordField.text;
-    _auth
-        .signInWithEmailAndPassword(email: email, password: password)
-        .then((res) {
-      // print(res);
-      Get.offAll(TabsScreen());
-    }).catchError((e) {
-      // print(e);
-      Get.showSnackbar(GetBar(
-        message: e.toString(),
-        duration: Duration(seconds: 5),
-      ));
-    });
-  }
+  AuthController _auth = AuthController();
+
+  // login() {
+  //   var email = (emailField.text).trim().toLowerCase();
+  //   var password = passwordField.text;
+  //   _auth
+  //       .signInWithEmailAndPassword(email: email, password: password)
+  //       .then((res) {
+  //     // print(res);
+  //     Get.offAll(TabsScreen());
+  //   }).catchError((e) {
+  //     // print(e);
+  //     Get.showSnackbar(GetBar(
+  //       message: e.toString(),
+  //       duration: Duration(seconds: 5),
+  //     ));
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +83,7 @@ class LoginScreen extends StatelessWidget {
                 child: ElevatedButton(
                   child: Text("LOGIN"),
                   onPressed: () {
-                    login();
+                    _auth.login(emailField.text, passwordField.text);
                     // Get.offAll(TabsScreen());
                   },
                 ),
