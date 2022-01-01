@@ -13,6 +13,7 @@ class CartController extends GetxController {
       cart[index]['total'] = cart[index]['total'] + cart[index]['price'];
     }
     print(cart);
+    cart.refresh();
   }
 
   removefromcart(input) {
@@ -27,12 +28,13 @@ class CartController extends GetxController {
         cart[index]['total'] = cart[index]['total'] - cart[index]['price'];
       }
     }
+    cart.refresh();
   }
 
   getTotalCartPrice() {
     num total = 0;
     cart.forEach((p) {
-      total = total + (p['qty'] + p['price']);
+      total = total + (p['qty'] * p['price']);
     });
     return total;
   }
@@ -40,7 +42,7 @@ class CartController extends GetxController {
   getProductCount() {
     num count = 0;
     cart.forEach((p) {
-      count = count + (p['qty'] + p['price']);
+      count = count + (p['qty']);
     });
     return count;
   }
