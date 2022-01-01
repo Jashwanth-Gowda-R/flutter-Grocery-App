@@ -12,6 +12,7 @@ class CartController extends GetxController {
       cart[index]['qty'] = cart[index]['qty'] + 1;
       cart[index]['total'] = cart[index]['total'] + cart[index]['price'];
     }
+    print(cart);
   }
 
   removefromcart(input) {

@@ -2,13 +2,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:grocery_user_app/controller/cart.dart';
 
 class ProductCard extends StatelessWidget {
+  CartController _cartCtrl = Get.put(CartController());
+
   String imageURL;
   var title;
   var price;
+  String id;
 
-  ProductCard({this.imageURL, this.title, this.price});
+  ProductCard({this.id, this.imageURL, this.title, this.price});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +24,7 @@ class ProductCard extends StatelessWidget {
             child: Container(
               height: double.infinity,
               width: double.infinity,
-              child: Image.asset(
+              child: Image.network(
                 // 'assets/images/products/1.jpg',
                 imageURL,
                 fit: BoxFit.cover,
@@ -60,7 +65,15 @@ class ProductCard extends StatelessWidget {
                   ),
                   Container(
                     child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          _cartCtrl.addtocart({
+                            "id": id,
+                            "price": price,
+                            "title": title,
+                            "qty": 1,
+                            "imageURL": imageURL
+                          });
+                        },
                         child: Icon(
                           Icons.add,
                         )),
