@@ -85,18 +85,36 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     fetchProducts();
+    fetchCategories();
   }
 
-  List _categories = [
-    "All",
-    "Vegetables",
-    "Meat",
-    "Fruits",
-    "Snacks",
-    "Drinks",
-    "Oils",
-    "Daily Needs"
-  ];
+  // List _categories = [
+  //   "All",
+  //   "Vegetables",
+  //   "Meat",
+  //   "Fruits",
+  //   "Snacks",
+  //   "Drinks",
+  //   "Oils",
+  //   "Daily Needs"
+  // ];
+
+  var _categories = [];
+
+  fetchCategories() {
+    _db.collection('categories').snapshots().listen((value) {
+      var temp = [];
+      value.docs.forEach((element) {
+        temp.add({
+          "id": element.id,
+          "title": element.data()['title'],
+        });
+      });
+      setState(() {
+        _categories = temp;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +156,7 @@ class _HomePageState extends State<HomePage> {
                   itemCount: _categories.length,
                   itemBuilder: (bc, index) {
                     return CategoriesBadge(
-                      title: _categories[index],
+                      title: _categories[index]['title'],
                     );
                   }),
             ),
