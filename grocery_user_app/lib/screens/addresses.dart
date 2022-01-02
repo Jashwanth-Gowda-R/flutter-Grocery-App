@@ -6,28 +6,37 @@ import 'package:grocery_user_app/controller/address.dart';
 import 'package:grocery_user_app/screens/manage_address.dart';
 
 class AddressScreen extends StatelessWidget {
-  AddressController _addressCtrl = AddressController();
+  AddressController _addressCtrl = Get.put(AddressController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Addresses'),
+        title: Text('Manage Addresses'),
       ),
       body: Obx(() => ListView.builder(
           itemCount: _addressCtrl.addresses.length,
           itemBuilder: (bc, index) {
             return ListTile(
-                title: Text('${_addressCtrl.addresses[index]['tag']}'),
+                title: Row(children: [
+                  Text('${_addressCtrl.addresses[index]['tag']}'),
+                  IconButton(
+                    onPressed: () {
+                      Get.to(ManageAddress(
+                        canedit: true,
+                        address: _addressCtrl.addresses[index],
+                      ));
+                    },
+                    icon: Icon(Icons.edit_outlined),
+                  )
+                ]),
                 subtitle: Text('${_addressCtrl.addresses[index]['address']}'),
                 trailing: IconButton(
                   onPressed: () {
-                    Get.to(ManageAddress(
-                      canedit: true,
-                      address: _addressCtrl.addresses[index],
-                    ));
+                    _addressCtrl
+                        .deleteAddress(_addressCtrl.addresses[index]['id']);
                   },
-                  icon: Icon(Icons.edit_outlined),
+                  icon: Icon(Icons.delete),
                 ));
           })),
       floatingActionButton: FloatingActionButton(

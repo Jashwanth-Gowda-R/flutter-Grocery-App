@@ -7,20 +7,28 @@ class AddressController extends GetxController {
   FirebaseFirestore _db = FirebaseFirestore.instance;
   FirebaseAuth _auth = FirebaseAuth.instance;
 
+  @override
+  onInit() {
+    super.onInit();
+    getAllAddress();
+  }
+
   getAllAddress() {
     _db
         .collection('addresses')
         .where('userId', isEqualTo: _auth.currentUser.uid)
         .snapshots()
         .listen((res) {
+      var tmp = [];
       res.docs.forEach((address) {
-        var tmp = [];
         tmp.add({"id": address.id, ...address.data()});
       });
+      addresses.assignAll(tmp);
     });
   }
 
   addAddress(obj) {
+    obj['userId'] = _auth.currentUser.uid;
     _db
         .collection('addresses')
         .add(obj)

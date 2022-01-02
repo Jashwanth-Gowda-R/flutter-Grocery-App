@@ -1,15 +1,42 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:grocery_user_app/controller/address.dart';
 
-class ManageAddress extends StatelessWidget {
-  const ManageAddress({Key key}) : super(key: key);
+class ManageAddress extends StatefulWidget {
+  bool canedit = false;
+  var address = {};
+  ManageAddress({this.canedit, this.address});
+
+  @override
+  State<ManageAddress> createState() => _ManageAddressState();
+}
+
+class _ManageAddressState extends State<ManageAddress> {
+  TextEditingController _tagfield = TextEditingController();
+  TextEditingController _namefield = TextEditingController();
+  TextEditingController _mobilefield = TextEditingController();
+  TextEditingController _addressfield = TextEditingController();
+  TextEditingController _pincodefield = TextEditingController();
+
+  AddressController _addressCtrl = Get.put(AddressController());
+
+  @override
+  void initState() {
+    super.initState();
+    _tagfield.text = widget.address['tag'];
+    _namefield.text = widget.address['name'];
+    _mobilefield.text = widget.address['mobile'];
+    _addressfield.text = widget.address['address'];
+    _pincodefield.text = widget.address['pincode'];
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Manage Address'),
+        title: Text(widget.canedit ? "Update Address" : 'Add Address'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -27,6 +54,7 @@ class ManageAddress extends StatelessWidget {
                 child: Column(
                   children: [
                     TextField(
+                      controller: _tagfield,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.grey[200],
@@ -38,6 +66,7 @@ class ManageAddress extends StatelessWidget {
                       height: 8,
                     ),
                     TextField(
+                      controller: _namefield,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.grey[200],
@@ -49,6 +78,7 @@ class ManageAddress extends StatelessWidget {
                       height: 8,
                     ),
                     TextField(
+                      controller: _mobilefield,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.grey[200],
@@ -61,6 +91,7 @@ class ManageAddress extends StatelessWidget {
                     ),
                     TextField(
                       maxLines: 5,
+                      controller: _addressfield,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.grey[200],
@@ -72,6 +103,7 @@ class ManageAddress extends StatelessWidget {
                       height: 8,
                     ),
                     TextField(
+                      controller: _pincodefield,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.grey[200],
@@ -85,7 +117,24 @@ class ManageAddress extends StatelessWidget {
                     Container(
                       height: 48,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          widget.canedit
+                              ? _addressCtrl
+                                  .updateAddress(widget.address['id'], {
+                                  "tag": _tagfield.text,
+                                  "name": _namefield.text,
+                                  "mobile": _mobilefield.text,
+                                  "address": _addressfield.text,
+                                  "pincode": _pincodefield.text
+                                })
+                              : _addressCtrl.addAddress({
+                                  "tag": _tagfield.text,
+                                  "name": _namefield.text,
+                                  "mobile": _mobilefield.text,
+                                  "address": _addressfield.text,
+                                  "pincode": _pincodefield.text
+                                });
+                        },
                         child: Text('Save Changes'),
                       ),
                     ),
