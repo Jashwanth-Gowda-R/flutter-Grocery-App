@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 class CartController extends GetxController {
   var cart = [].obs;
+  var selectedAddress = {}.obs;
+  var paymentMode = 'COD'.obs;
 
   addtocart(input) {
     var index = cart.indexWhere((p) => p['id'] == input['id']);

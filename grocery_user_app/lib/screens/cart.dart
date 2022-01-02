@@ -68,40 +68,94 @@ class CartPage extends StatelessWidget {
                             }),
                       ),
                     ),
-                    ListTile(
-                      title: Text('Delivery Address'),
-                      subtitle:
-                          Text('#4,1st main road,kalyannagar,bengaluru-72'),
-                      trailing: TextButton(
-                          onPressed: () {
-                            _addressCtrl.getAllAddress();
-                            Get.bottomSheet(BottomSheet(
-                                onClosing: () {},
-                                builder: (bc) {
-                                  return Wrap(
-                                    children: _addressCtrl.addresses.map((a) {
-                                      return ListTile(
-                                        title: Text('${a['tag']}'),
-                                        subtitle: Text('${a['address']}'),
-                                      );
-                                    }).toList(),
-                                  );
-                                }));
-                          },
-                          child: Text('Change',
-                              style: TextStyle(
-                                color: Colors.green,
-                              ))),
+                    Container(
+                      child: Column(
+                        children: [
+                          Obx(
+                            () => ListTile(
+                              title: Text('Delivery Address'),
+                              subtitle: Text(_cartCtrl
+                                          .selectedAddress['address'] ==
+                                      null
+                                  ? 'Add Address'
+                                  : '${_cartCtrl.selectedAddress['address']}'),
+                              trailing: TextButton(
+                                  onPressed: () {
+                                    _addressCtrl.getAllAddress();
+                                    Get.bottomSheet(BottomSheet(
+                                        onClosing: () {},
+                                        builder: (bc) {
+                                          return Wrap(
+                                            children:
+                                                _addressCtrl.addresses.map((a) {
+                                              return ListTile(
+                                                title: Text('${a['tag']}'),
+                                                subtitle:
+                                                    Text('${a['address']}'),
+                                                onTap: () {
+                                                  _cartCtrl.selectedAddress
+                                                      .value = a;
+                                                  Get.back();
+                                                },
+                                              );
+                                            }).toList(),
+                                          );
+                                        }));
+                                  },
+                                  child: Text('Change',
+                                      style: TextStyle(
+                                        color: Colors.green,
+                                      ))),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     ListTile(
                       title: Text('Payment Method'),
-                      subtitle: Text('Cash On Delivery'),
+                      subtitle: Obx(() => Text('${_cartCtrl.paymentMode}')),
                       trailing: TextButton(
-                          onPressed: () {},
-                          child: Text('Change',
-                              style: TextStyle(
-                                color: Colors.green,
-                              ))),
+                        child: Text('Change',
+                            style: TextStyle(
+                              color: Colors.green,
+                            )),
+                        onPressed: () {
+                          Get.bottomSheet(BottomSheet(
+                              onClosing: () {},
+                              builder: (bc) {
+                                return Wrap(children: [
+                                  ListTile(
+                                    title: Text("Cash on Delivery"),
+                                    onTap: () {
+                                      _cartCtrl.paymentMode.value = "COD";
+                                      Get.back();
+                                    },
+                                  ),
+                                  ListTile(
+                                    title: Text("Card"),
+                                    onTap: () {
+                                      _cartCtrl.paymentMode.value = "Stripe";
+                                      Get.back();
+                                    },
+                                  ),
+                                  ListTile(
+                                    title: Text("Paypal"),
+                                    onTap: () {
+                                      _cartCtrl.paymentMode.value = "Paypal";
+                                      Get.back();
+                                    },
+                                  ),
+                                  ListTile(
+                                    title: Text("Others"),
+                                    onTap: () {
+                                      _cartCtrl.paymentMode.value = "Others";
+                                      Get.back();
+                                    },
+                                  ),
+                                ]);
+                              }));
+                        },
+                      ),
                     ),
                     Container(
                       child: ElevatedButton(
