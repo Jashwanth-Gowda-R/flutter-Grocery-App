@@ -3,11 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:grocery_user_app/controller/address.dart';
 import 'package:grocery_user_app/controller/cart.dart';
 import 'package:grocery_user_app/custom-widgets/cart_items.dart';
 
 class CartPage extends StatelessWidget {
   CartController _cartCtrl = Get.put(CartController());
+  AddressController _addressCtrl = Get.put(AddressController());
 
   // List _cartItems = [
   //   {
@@ -71,7 +73,21 @@ class CartPage extends StatelessWidget {
                       subtitle:
                           Text('#4,1st main road,kalyannagar,bengaluru-72'),
                       trailing: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _addressCtrl.getAllAddress();
+                            Get.bottomSheet(BottomSheet(
+                                onClosing: () {},
+                                builder: (bc) {
+                                  return Wrap(
+                                    children: _addressCtrl.addresses.map((a) {
+                                      return ListTile(
+                                        title: Text('${a['tag']}'),
+                                        subtitle: Text('${a['address']}'),
+                                      );
+                                    }).toList(),
+                                  );
+                                }));
+                          },
                           child: Text('Change',
                               style: TextStyle(
                                 color: Colors.green,
