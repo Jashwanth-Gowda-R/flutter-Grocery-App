@@ -1,13 +1,50 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grocery_user_app/screens/addresses.dart';
 import 'package:grocery_user_app/screens/orders.dart';
 import 'package:grocery_user_app/screens/profile.dart';
 
-class AccountPage extends StatelessWidget {
+class AccountPage extends StatefulWidget {
   const AccountPage({Key key}) : super(key: key);
+
+  @override
+  State<AccountPage> createState() => _AccountPageState();
+}
+
+class _AccountPageState extends State<AccountPage> {
+  var profileImage = 'http://placehold.it/120x120';
+  var title;
+  var phoneNumber;
+
+  FirebaseFirestore _db = FirebaseFirestore.instance;
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
+  readUserDetails() {
+    _db
+        .collection('accounts')
+        .doc(_auth.currentUser.uid)
+        .snapshots()
+        .listen((res) {
+      print(res);
+      print(res.id);
+      print(res.data());
+      setState(() {
+        profileImage = res.data()['imageURL'];
+        title = res.data()['name'];
+        phoneNumber = res.data()['phoneNumber'];
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    readUserDetails();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +56,11 @@ class AccountPage extends StatelessWidget {
         children: [
           ListTile(
             leading: CircleAvatar(
-              backgroundImage: AssetImage('assets/images/profile.png'),
+              backgroundImage: NetworkImage(profileImage),
             ),
-            title: Text('Jashwanth Gowda R'),
-            subtitle: Text('9986621042'),
+            title: Text('${title != null ? title : 'Shani'}'),
+            subtitle:
+                Text('${phoneNumber != null ? phoneNumber : '9876544321'}'),
             trailing: TextButton(
               onPressed: () {
                 Get.to(ProfileScreen());
