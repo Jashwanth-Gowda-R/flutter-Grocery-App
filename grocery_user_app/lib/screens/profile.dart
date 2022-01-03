@@ -161,26 +161,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SizedBox(
                   height: 8,
                 ),
-                TextField(
-                  controller: emailField,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.grey[200],
-                    border: InputBorder.none,
-                    labelText: "Email Address",
-                  ),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.grey[200],
-                    border: InputBorder.none,
-                    labelText: "Password",
-                  ),
-                ),
+                // TextField(
+                //   controller: emailField,
+                //   decoration: InputDecoration(
+                //     filled: true,
+                //     fillColor: Colors.grey[200],
+                //     border: InputBorder.none,
+                //     labelText: "Email Address",
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 8,
+                // ),
+                // TextField(
+                //   decoration: InputDecoration(
+                //     filled: true,
+                //     fillColor: Colors.grey[200],
+                //     border: InputBorder.none,
+                //     labelText: "Password",
+                //   ),
+                // ),
                 SizedBox(
                   height: 20,
                 ),
