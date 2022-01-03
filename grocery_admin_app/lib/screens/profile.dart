@@ -21,6 +21,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   // FirebaseAuth _auth = FirebaseAuth.instance;
   AuthController _auth = Get.put(AuthController());
+  FirebaseAuth auths = FirebaseAuth.instance;
 
   FirebaseFirestore _db = FirebaseFirestore.instance;
 
@@ -48,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   // }
 
   readStoreDetails() {
-    _db.collection('settings').doc('store').snapshots().listen((res) {
+    _db.collection('settings').doc("store").snapshots().listen((res) {
       print(res);
       print(res.id);
       print(res.data());
@@ -62,8 +63,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
+  // addAddress() {
+  //   // obj['userId'] = auths.currentUser.uid;
+  //   _db
+  //       .collection('settings')
+  //       .add({
+  //         "address": addressField.text,
+  //         "name": storeField.text,
+  //         "mobile": mobileField.text,
+  //         "email": emailField.text,
+  //         "id": auths.currentUser.uid
+  //       })
+  //       .then((value) => Get.back())
+  //       .catchError((e) {
+  //         print(e);
+  //       });
+  // }
+
   updateStoreDetails() {
-    _db.collection('settings').doc('store').update({
+    _db.collection('settings').doc("store").update({
       "address": addressField.text,
       "name": storeField.text,
       "mobile": mobileField.text,
@@ -84,13 +102,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
       _storage
           .ref()
           .child('store')
-          .child('storeImage')
+          .child(auths.currentUser.uid)
           .putFile(image)
           .then((res) {
         print(res);
         res.ref.getDownloadURL().then((url) {
           print('uploadedm url' + url);
-          _db.collection('settings').doc('store').update({
+          _db.collection('settings').doc("store").update({
             "imageURl": url,
           }).then((res) {
             print("updated store image url details");
