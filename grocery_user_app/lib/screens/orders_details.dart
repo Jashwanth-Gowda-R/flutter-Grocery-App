@@ -1,11 +1,18 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, prefer_typing_uninitialized_variables, must_be_immutable, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class OrdersDetails extends StatelessWidget {
   var orderDetailObj;
 
   OrdersDetails({this.orderDetailObj});
+
+  toDateString(timestamp) {
+    var date = DateTime.parse(timestamp.toDate().toString());
+    var formatter = DateFormat("dd-MMM-yyyy hh:mm a");
+    return formatter.format(date);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +25,7 @@ class OrdersDetails extends StatelessWidget {
             children: [
               ListTile(
                 title: Text('Order'),
-                subtitle: Text('${orderDetailObj["createdAt"]}'),
+                subtitle: Text('${toDateString(orderDetailObj["createdAt"])}'),
                 trailing: Text('#${orderDetailObj["id"]}'),
               ),
               ListTile(

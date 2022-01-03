@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grocery_user_app/controller/orders.dart';
 import 'package:grocery_user_app/screens/orders_details.dart';
+import 'package:intl/intl.dart';
 
 class MyOrders extends StatefulWidget {
   @override
@@ -72,6 +73,12 @@ class _MyOrdersState extends State<MyOrders> {
   // ];
   OrderController _orderCtrl = Get.put(OrderController());
 
+  toDateString(timestamp) {
+    var date = DateTime.parse(timestamp.toDate().toString());
+    var formatter = DateFormat("dd-MMM-yyyy  hh:mm a");
+    return formatter.format(date);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,7 +98,8 @@ class _MyOrdersState extends State<MyOrders> {
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${_orderCtrl.orders[index]["createdAt"]}'),
+                  Text(
+                      '${toDateString(_orderCtrl.orders[index]["createdAt"])}'),
                   Text(
                       '${_orderCtrl.orders[index]["itemCount"]} items - ₹${_orderCtrl.orders[index]["cartTotal"]}')
                 ],
