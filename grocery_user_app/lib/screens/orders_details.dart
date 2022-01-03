@@ -18,7 +18,7 @@ class OrdersDetails extends StatelessWidget {
             children: [
               ListTile(
                 title: Text('Order'),
-                subtitle: Text('${orderDetailObj["dateString"]}'),
+                subtitle: Text('${orderDetailObj["createdAt"]}'),
                 trailing: Text('#${orderDetailObj["id"]}'),
               ),
               ListTile(
@@ -27,8 +27,14 @@ class OrdersDetails extends StatelessWidget {
               ),
               ListTile(
                 title: Text('Delivery'),
-                subtitle: Text('${orderDetailObj["deliveryAddress"]}'),
-                trailing: Text('${orderDetailObj["paymentMethod"]}'),
+                subtitle:
+                    Text('${orderDetailObj["deliveryAddress"]["address"]}'),
+                trailing: Text('${orderDetailObj["paymentMode"]}'),
+              ),
+              ListTile(
+                title: Text('Your Mobile Number'),
+                trailing:
+                    Text('${orderDetailObj["deliveryAddress"]["mobile"]}'),
               ),
               Container(
                 margin: EdgeInsets.only(top: 8, bottom: 8),
@@ -45,15 +51,15 @@ class OrdersDetails extends StatelessWidget {
               ),
               Expanded(
                   child: ListView.builder(
-                      itemCount: orderDetailObj['cartItems'].length,
+                      itemCount: orderDetailObj['cart'].length,
                       itemBuilder: (bc, index) {
                         return ListTile(
-                          title: Text(
-                              '${orderDetailObj["cartItems"][index]['title']}'),
+                          title:
+                              Text('${orderDetailObj["cart"][index]['title']}'),
                           subtitle: Text(
-                              '₹${orderDetailObj["cartItems"][index]['price']} x qty ${orderDetailObj["cartItems"][index]['qty']}'),
+                              '₹${orderDetailObj["cart"][index]['price']} x qty ${orderDetailObj["cart"][index]['qty']}'),
                           trailing: Text(
-                              '₹${orderDetailObj["cartItems"][index]['total']}'),
+                              '₹${orderDetailObj["cart"][index]['total']}'),
                         );
                       })),
               Container(

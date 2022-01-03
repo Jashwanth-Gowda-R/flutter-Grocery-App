@@ -37,7 +37,8 @@ class OrderController extends GetxController {
       "paymentMode": _cartCtrl.paymentMode.value,
       "createdAt": FieldValue.serverTimestamp(),
       "cartTotal": _cartCtrl.getTotalCartPrice(),
-      "itemCount": _cartCtrl.getProductCount()
+      "itemCount": _cartCtrl.getProductCount(),
+      "status": "Processing"
     };
 
     _db.collection('orders').add(obj).then((res) {
