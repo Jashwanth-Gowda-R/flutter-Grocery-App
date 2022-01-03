@@ -48,4 +48,8 @@ class CartController extends GetxController {
     });
     return count;
   }
+
+  clearCart() {
+    cart.clear();
+  }
 }

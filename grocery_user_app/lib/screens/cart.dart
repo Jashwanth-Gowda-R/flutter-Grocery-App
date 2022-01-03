@@ -5,11 +5,13 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:grocery_user_app/controller/address.dart';
 import 'package:grocery_user_app/controller/cart.dart';
+import 'package:grocery_user_app/controller/orders.dart';
 import 'package:grocery_user_app/custom-widgets/cart_items.dart';
 
 class CartPage extends StatelessWidget {
   CartController _cartCtrl = Get.put(CartController());
   AddressController _addressCtrl = Get.put(AddressController());
+  OrderController _orderCtrl = Get.put(OrderController());
 
   // List _cartItems = [
   //   {
@@ -160,7 +162,19 @@ class CartPage extends StatelessWidget {
                     Container(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(elevation: 0),
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.defaultDialog(
+                              title: "Confirmation",
+                              content: Text(
+                                  "Are You sure want to place this order?"),
+                              onConfirm: () {
+                                _orderCtrl.createOrder();
+                                Get.back();
+                              },
+                              onCancel: () {
+                                Get.back();
+                              });
+                        },
                         child: Obx(
                           () => Text(
                               'Checkout(₹${_cartCtrl.getTotalCartPrice()})',
