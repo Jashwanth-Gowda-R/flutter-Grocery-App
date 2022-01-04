@@ -53,7 +53,14 @@ class OrderDetail extends StatelessWidget {
             ),
             ListTile(
               title: Text("Status"),
-              trailing: Text("${orderObj["status"]}"),
+              trailing: Text(
+                "${orderObj["status"]}",
+                style: TextStyle(
+                  color: Colors.green,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               onTap: () {
                 Get.bottomSheet(
                   BottomSheet(
@@ -66,7 +73,7 @@ class OrderDetail extends StatelessWidget {
                             _orderCtrl.updateOrder(orderObj["id"], {
                               "status": "COMPLETED",
                             });
-                            Get.to(OrdersScreen());
+                            Get.off(OrdersScreen());
                           },
                         ),
                         ListTile(
@@ -75,7 +82,7 @@ class OrderDetail extends StatelessWidget {
                             _orderCtrl.updateOrder(orderObj["id"], {
                               "status": "CANCELLED",
                             });
-                            Get.to(OrdersScreen());
+                            Get.off(OrdersScreen());
                           },
                         ),
                       ],
