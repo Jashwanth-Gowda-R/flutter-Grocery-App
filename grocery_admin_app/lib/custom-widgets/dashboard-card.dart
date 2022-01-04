@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 
 class DashBoardCard extends StatelessWidget {
-  String title;
-  double value;
+  final String title;
+  final num value;
 
   DashBoardCard({
     this.title,
@@ -26,7 +26,7 @@ class DashBoardCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "${title.toUpperCase()}",
+              title.toUpperCase(),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 12,
@@ -36,7 +36,7 @@ class DashBoardCard extends StatelessWidget {
               height: 12,
             ),
             Text(
-              "${value.toInt()}",
+              "$value",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 28,
