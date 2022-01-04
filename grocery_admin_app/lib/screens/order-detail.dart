@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_unnecessary_containers, file_names, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OrderDetail extends StatelessWidget {
   Map orderObj;
@@ -8,6 +10,15 @@ class OrderDetail extends StatelessWidget {
   OrderDetail({
     this.orderObj,
   });
+
+  toDateString(timestamp) {
+    var date = DateTime.parse(timestamp.toDate().toString());
+    var formatter = DateFormat("dd-MMM-yyyy hh:mm a");
+    return formatter.format(date);
+  }
+
+  void _launchURL(url) async =>
+      await canLaunch(url) ? await launch(url) : throw "could not call";
 
   @override
   Widget build(BuildContext context) {
@@ -22,15 +33,17 @@ class OrderDetail extends StatelessWidget {
           children: [
             ListTile(
               title: Text("Customer"),
-              subtitle: Text("Rajarajeshwari"),
+              subtitle: Text("${orderObj["deliveryAddress"]['name']}"),
               trailing: TextButton(
                 child: Text("Call"),
-                onPressed: () {},
+                onPressed: () {
+                  _launchURL("tel:${orderObj["deliveryAddress"]['mobile']}");
+                },
               ),
             ),
             ListTile(
               title: Text("Order"),
-              subtitle: Text("${orderObj["dateString"]}"),
+              subtitle: Text("${toDateString(orderObj["createdAt"])}"),
               trailing: Text("#${orderObj["id"]}"),
             ),
             ListTile(
@@ -39,8 +52,8 @@ class OrderDetail extends StatelessWidget {
             ),
             ListTile(
               title: Text("Delivery"),
-              subtitle: Text("${orderObj["deliveryAddress"]}"),
-              trailing: Text("${orderObj["paymentMethod"]}"),
+              subtitle: Text("${orderObj["deliveryAddress"]["address"]}"),
+              trailing: Text("${orderObj["paymentMode"]}"),
             ),
             Container(
               margin: EdgeInsets.only(top: 8, bottom: 8),
@@ -56,16 +69,16 @@ class OrderDetail extends StatelessWidget {
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: orderObj["cartItems"].length,
+                itemCount: orderObj["cart"].length,
                 itemBuilder: (bc, index) {
                   return ListTile(
                     title: Text(
-                      "${orderObj["cartItems"][index]["title"]}",
+                      "${orderObj["cart"][index]["title"]}",
                     ),
                     subtitle: Text(
-                        "Qty: ${orderObj["cartItems"][index]["qty"]} x ₹ ${orderObj["cartItems"][index]["price"]}"),
+                        "Qty: ${orderObj["cart"][index]["qty"]} x ₹ ${orderObj["cart"][index]["price"]}"),
                     trailing: Text(
-                      "₹ ${orderObj["cartItems"][index]["total"]}",
+                      "₹ ${orderObj["cart"][index]["total"]}",
                     ),
                   );
                 },
