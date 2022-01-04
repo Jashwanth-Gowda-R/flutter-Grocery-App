@@ -18,19 +18,19 @@ class OrderController extends GetxController {
   @override
   onInit() {
     super.onInit();
-    // fetchAllOrders();
+    fetchAllOrders();
     var today = DateTime.now();
     fetchOrders(today.toString());
   }
 
   calculate() {
-    totalOrders.value = orders.length;
+    totalOrders.value = allorders.length;
     totalRevenue.value = 0;
     orderProcessingCount.value = 0;
     orderCompletedCount.value = 0;
     orderCancelledCount.value = 0;
 
-    orders.forEach((order) {
+    allorders.forEach((order) {
       print(order);
       if (order["status"] == "COMPLETED") {
         orderCompletedCount.value++;
@@ -65,7 +65,7 @@ class OrderController extends GetxController {
         tmp.add({"id": order.id, ...order.data()});
       });
       orders.assignAll(tmp);
-      calculate();
+      // calculate();
     });
   }
 
@@ -84,7 +84,7 @@ class OrderController extends GetxController {
       });
       allorders.assignAll(tmp);
       print(allorders);
-      // calculate();
+      calculate();
     });
   }
 }
