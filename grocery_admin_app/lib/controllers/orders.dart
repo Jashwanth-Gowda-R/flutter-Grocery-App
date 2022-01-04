@@ -20,6 +20,28 @@ class OrderController extends GetxController {
     fetchOrders(today.toString());
   }
 
+  calculate() {
+    totalOrders.value = 0;
+    totalRevenue.value = 0;
+    orderProcessingCount.value = 0;
+    orderCompletedCount.value = 0;
+    orderCancelledCount.value = 0;
+
+    orders.forEach((order) {
+      print(order);
+      if (order['status'] == 'COMPLETED') {
+        orderCompletedCount.value++;
+        // create tmpTotal to avoid type conversion error
+        int tmpTotal = order["cartTotal"];
+        totalRevenue.value += tmpTotal;
+      } else if (order['status'] == 'Processing') {
+        orderProcessingCount.value++;
+      } else if (order['status'] == 'CANCELLED') {
+        orderCancelledCount.value++;
+      }
+    });
+  }
+
   fetchOrders(givenDate) {
     var from = DateTime.parse(givenDate);
     from = DateTime(from.year, from.month, from.day, 0, 0, 0);
@@ -39,13 +61,14 @@ class OrderController extends GetxController {
         tmp.add({"id": order.id, ...order.data()});
       });
       orders.assignAll(tmp);
-      // calculate();
+      calculate();
     });
   }
 
   updateOrder(id, obj) {
     _db.collection('orders').doc(id).update(obj).then((res) {
       print('order updated!');
+      calculate();
     }).catchError((e) => print(e));
   }
 }
