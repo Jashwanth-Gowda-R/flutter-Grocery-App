@@ -1,6 +1,9 @@
 // ignore_for_file: avoid_unnecessary_containers, file_names, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:grocery_admin_app/controllers/orders.dart';
+import 'package:grocery_admin_app/screens/orders.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -19,6 +22,8 @@ class OrderDetail extends StatelessWidget {
 
   void _launchURL(url) async =>
       await canLaunch(url) ? await launch(url) : throw "could not call";
+
+  OrderController _orderCtrl = Get.put(OrderController());
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +54,35 @@ class OrderDetail extends StatelessWidget {
             ListTile(
               title: Text("Status"),
               trailing: Text("${orderObj["status"]}"),
+              onTap: () {
+                Get.bottomSheet(
+                  BottomSheet(
+                    onClosing: () {},
+                    builder: (bc) => Wrap(
+                      children: [
+                        ListTile(
+                          title: Text("Mark as completed"),
+                          onTap: () {
+                            _orderCtrl.updateOrder(orderObj["id"], {
+                              "status": "COMPLETED",
+                            });
+                            Get.to(OrdersScreen());
+                          },
+                        ),
+                        ListTile(
+                          title: Text("Mark as Cancelled"),
+                          onTap: () {
+                            _orderCtrl.updateOrder(orderObj["id"], {
+                              "status": "CANCELLED",
+                            });
+                            Get.to(OrdersScreen());
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
             ListTile(
               title: Text("Delivery"),

@@ -4,6 +4,12 @@ import 'package:get/get.dart';
 
 class OrderController extends GetxController {
   var orders = [].obs;
+  var totalOrders = 0.obs;
+  var totalRevenue = 0.obs;
+  var orderProcessingCount = 0.obs;
+  var orderCompletedCount = 0.obs;
+  var orderCancelledCount = 0.obs;
+
   FirebaseFirestore _db = FirebaseFirestore.instance;
   FirebaseAuth _auth = FirebaseAuth.instance;
 
