@@ -154,7 +154,7 @@ class LoginScreen extends StatelessWidget {
                           elevation: 0,
                         ),
                         onPressed: () {
-                          // signInWithGoogle();
+                          _auth.signInWithGoogle();
                         },
                         child: Image.asset(
                           'assets/images/google-icon.png',

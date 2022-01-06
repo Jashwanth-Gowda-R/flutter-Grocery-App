@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,9 +11,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthController extends GetxController {
   FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseFirestore _db = FirebaseFirestore.instance;
+
   var isloggin = false.obs;
 
-   GoogleSignIn _googleSignIn = GoogleSignIn();
+  GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
   void onInit() {
@@ -60,9 +63,46 @@ class AuthController extends GetxController {
     });
   }
 
-  signInWithGoogle() {
-    _googleSignIn.signIn().then((res) {
+  createAccountOnFireStore(userId, name, email, mobile, imgURL) {
+    _db.collection("accounts").doc(userId).set({
+      "name": name,
+      "email": email,
+      "createdAt": FieldValue.serverTimestamp(),
+      "imageURL": imgURL,
+      "phoneNumber": mobile,
+    }).then((value) {
+      Get.offAll(TabScreen());
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  signInWithGoogle() async {
+    GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
+    GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount.authentication;
+
+    AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+
+    _auth.signInWithCredential(credential).then((res) {
       print(res);
+      if (res.additionalUserInfo.isNewUser) {
+        createAccountOnFireStore(
+          res.user.uid,
+          res.user.displayName,
+          res.user.email,
+          res.user.phoneNumber,
+          res.user.photoURL,
+        );
+        isloggin.value = true;
+        Get.offAll(TabScreen());
+      } else {
+        isloggin.value = true;
+        Get.offAll(TabScreen());
+      }
     }).catchError((e) {
       print(e);
     });
