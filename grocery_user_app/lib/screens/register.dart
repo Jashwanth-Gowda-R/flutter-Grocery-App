@@ -187,7 +187,9 @@ class RegisterScreen extends StatelessWidget {
                           primary: Colors.transparent,
                           elevation: 0,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          _auth.signInWithGoogle();
+                        },
                         child: Image.asset(
                           'assets/images/google-icon.png',
                           height: 32,

@@ -124,10 +124,10 @@ class AuthController extends GetxController {
           res.user.photoURL,
         );
         isloggin.value = true;
-        Get.offAll(TabScreen());
+        Get.offAll(const TabScreen());
       } else {
         isloggin.value = true;
-        Get.offAll(TabScreen());
+        Get.offAll(const TabScreen());
       }
     }).catchError((e) {
       print(e);
