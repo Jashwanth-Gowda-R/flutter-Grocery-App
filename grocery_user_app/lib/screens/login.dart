@@ -4,31 +4,38 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:grocery_user_app/controller/auth.dart';
 
 import 'package:grocery_user_app/screens/register.dart';
 import 'package:grocery_user_app/screens/tabs.dart';
 
+// import 'package:google_sign_in/google_sign_in.dart';
+
 class LoginScreen extends StatelessWidget {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  // FirebaseAuth _auth = FirebaseAuth.instance;
   TextEditingController emailField = TextEditingController();
   TextEditingController passwordField = TextEditingController();
 
-  login() {
-    var email = (emailField.text).trim().toLowerCase();
-    var password = passwordField.text;
-    _auth
-        .signInWithEmailAndPassword(email: email, password: password)
-        .then((res) {
-      // print(res);
-      Get.offAll(TabScreen());
-    }).catchError((e) {
-      // print(e);
-      Get.showSnackbar(GetBar(
-        message: e.toString(),
-        duration: Duration(seconds: 5),
-      ));
-    });
-  }
+  AuthController _auth = AuthController();
+
+  // GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  // login() {
+  //   var email = (emailField.text).trim().toLowerCase();
+  //   var password = passwordField.text;
+  //   _auth
+  //       .signInWithEmailAndPassword(email: email, password: password)
+  //       .then((res) {
+  //     // print(res);
+  //     Get.offAll(TabScreen());
+  //   }).catchError((e) {
+  //     // print(e);
+  //     Get.showSnackbar(GetBar(
+  //       message: e.toString(),
+  //       duration: Duration(seconds: 5),
+  //     ));
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -103,8 +110,10 @@ class LoginScreen extends StatelessWidget {
                   height: 48,
                   child: ElevatedButton(
                     onPressed: () {
-                      login();
+                      // login();
                       // Get.offAll(TabScreen());
+
+                      _auth.login(emailField.text, passwordField.text);
                     },
                     child: Text('Login'),
                   ),
@@ -144,7 +153,9 @@ class LoginScreen extends StatelessWidget {
                           primary: Colors.transparent,
                           elevation: 0,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          // signInWithGoogle();
+                        },
                         child: Image.asset(
                           'assets/images/google-icon.png',
                           height: 32,
