@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:grocery_user_app/controller/auth.dart';
 import 'package:grocery_user_app/screens/login.dart';
 import 'package:grocery_user_app/screens/tabs.dart';
 
@@ -15,36 +16,38 @@ class RegisterScreen extends StatelessWidget {
   TextEditingController passwordfield = TextEditingController();
   TextEditingController mobilenumberfield = TextEditingController();
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  FirebaseFirestore _db = FirebaseFirestore.instance;
+  // FirebaseAuth _auth = FirebaseAuth.instance;
+  // FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  register() {
-    var email = (emailfield.text).trim().toLowerCase();
-    var password = passwordfield.text;
-    _auth
-        .createUserWithEmailAndPassword(email: email, password: password)
-        .then((res) {
-      var userid = res.user.uid;
-      _db
-          .collection('accounts')
-          .doc(userid)
-          .set({
-            "name": namefield.text,
-            "phoneNumber": mobilenumberfield.text,
-            "email": emailfield.text,
-            "createdAt": FieldValue.serverTimestamp(),
-            "imageURL": "http://placehold.it/120x120"
-          })
-          .then((value) => Get.offAll(TabScreen()))
-          .catchError((e) => {print(e)});
-    }).catchError((e) {
-      // print(e);
-      Get.showSnackbar(GetBar(
-        message: e.toString(),
-        duration: Duration(seconds: 5),
-      ));
-    });
-  }
+  // register() {
+  //   var email = (emailfield.text).trim().toLowerCase();
+  //   var password = passwordfield.text;
+  //   _auth
+  //       .createUserWithEmailAndPassword(email: email, password: password)
+  //       .then((res) {
+  //     var userid = res.user.uid;
+  //     _db
+  //         .collection('accounts')
+  //         .doc(userid)
+  //         .set({
+  //           "name": namefield.text,
+  //           "phoneNumber": mobilenumberfield.text,
+  //           "email": emailfield.text,
+  //           "createdAt": FieldValue.serverTimestamp(),
+  //           "imageURL": "http://placehold.it/120x120"
+  //         })
+  //         .then((value) => Get.offAll(TabScreen()))
+  //         .catchError((e) => {print(e)});
+  //   }).catchError((e) {
+  //     // print(e);
+  //     Get.showSnackbar(GetBar(
+  //       message: e.toString(),
+  //       duration: Duration(seconds: 5),
+  //     ));
+  //   });
+  // }
+
+  AuthController _auth = AuthController();
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +146,8 @@ class RegisterScreen extends StatelessWidget {
                   height: 48,
                   child: ElevatedButton(
                     onPressed: () {
-                      register();
+                      _auth.register(emailfield.text, passwordfield.text,
+                          namefield.text, mobilenumberfield.text);
                     },
                     child: Text('Register'),
                   ),

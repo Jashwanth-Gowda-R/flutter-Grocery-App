@@ -33,6 +33,32 @@ class AuthController extends GetxController {
     });
   }
 
+  register(email, password, name, phoneNumber) {
+    _auth
+        .createUserWithEmailAndPassword(email: email, password: password)
+        .then((res) {
+      var userid = res.user.uid;
+      _db
+          .collection('accounts')
+          .doc(userid)
+          .set({
+            "name": name,
+            "phoneNumber": phoneNumber,
+            "email": email,
+            "createdAt": FieldValue.serverTimestamp(),
+            "imageURL": "http://placehold.it/120x120"
+          })
+          .then((value) => Get.offAll(const TabScreen()))
+          .catchError((e) => {print(e)});
+    }).catchError((e) {
+      // print(e);
+      Get.showSnackbar(GetBar(
+        message: e.toString(),
+        duration: const Duration(seconds: 5),
+      ));
+    });
+  }
+
   login(email, password) {
     email = (email).trim().toLowerCase();
     _auth
