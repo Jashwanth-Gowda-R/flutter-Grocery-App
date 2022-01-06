@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:grocery_user_app/controller/auth.dart';
 import 'package:grocery_user_app/screens/login.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,6 +19,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   FirebaseAuth _auth = FirebaseAuth.instance;
+  AuthController _logoutauth = Get.put(AuthController());
 
   FirebaseFirestore _db = FirebaseFirestore.instance;
 
@@ -29,19 +31,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   var profileImage = 'http://placehold.it/120x120';
 
-  logout() {
-    _auth
-        .signOut()
-        .then(
-          (value) => Get.offAll(LoginScreen()),
-        )
-        .catchError((e) {
-      Get.showSnackbar(GetBar(
-        message: e.toString(),
-        duration: Duration(seconds: 5),
-      ));
-    });
-  }
+  // logout() {
+  //   _auth
+  //       .signOut()
+  //       .then(
+  //         (value) => Get.offAll(LoginScreen()),
+  //       )
+  //       .catchError((e) {
+  //     Get.showSnackbar(GetBar(
+  //       message: e.toString(),
+  //       duration: Duration(seconds: 5),
+  //     ));
+  //   });
+  // }
 
   readUserDetails() {
     _db
@@ -200,7 +202,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Container(
                   child: TextButton(
                     onPressed: () {
-                      logout();
+                      _logoutauth.logout();
                       // Get.offAll(LoginScreen());
                     },
                     child: Text('Logout'),
