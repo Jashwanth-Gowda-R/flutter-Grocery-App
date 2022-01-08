@@ -142,7 +142,9 @@ class LoginScreen extends StatelessWidget {
                           primary: Colors.transparent,
                           elevation: 0,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          _auth.signInWithFB();
+                        },
                         child: Image.asset(
                           'assets/images/fb-icon.png',
                           height: 32,

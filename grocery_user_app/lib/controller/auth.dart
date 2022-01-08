@@ -8,6 +8,7 @@ import 'package:grocery_user_app/screens/login.dart';
 import 'package:grocery_user_app/screens/tabs.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class AuthController extends GetxController {
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -132,5 +133,41 @@ class AuthController extends GetxController {
     }).catchError((e) {
       print(e);
     });
+  }
+
+  signInWithFB() async {
+    final LoginResult result = await FacebookAuth.instance
+        .login(); // by default we request the email and the public profile
+// or FacebookAuth.i.login()
+    if (result.status == LoginStatus.success) {
+      // you are logged
+      final AccessToken accessToken = result.accessToken;
+
+      AuthCredential credential =
+          FacebookAuthProvider.credential(accessToken.token);
+
+      _auth.signInWithCredential(credential).then((res) {
+        print(res);
+        if (res.additionalUserInfo.isNewUser) {
+          createAccountOnFireStore(
+            res.user.uid,
+            res.user.displayName,
+            res.user.email,
+            res.user.phoneNumber,
+            res.user.photoURL,
+          );
+          isloggin.value = true;
+          Get.offAll(const TabScreen());
+        } else {
+          isloggin.value = true;
+          Get.offAll(const TabScreen());
+        }
+      }).catchError((e) {
+        print(e);
+      });
+    } else {
+      print(result.status);
+      print(result.message);
+    }
   }
 }
