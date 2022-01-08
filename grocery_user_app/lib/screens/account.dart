@@ -8,6 +8,8 @@ import 'package:grocery_user_app/screens/addresses.dart';
 import 'package:grocery_user_app/screens/orders.dart';
 import 'package:grocery_user_app/screens/profile.dart';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 class AccountPage extends StatefulWidget {
   const AccountPage({Key key}) : super(key: key);
 
