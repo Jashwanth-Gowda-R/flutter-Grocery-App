@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:grocery_user_app/controller/profile.dart';
 import 'package:grocery_user_app/screens/addresses.dart';
 import 'package:grocery_user_app/screens/orders.dart';
 import 'package:grocery_user_app/screens/profile.dart';
@@ -25,6 +26,17 @@ class _AccountPageState extends State<AccountPage> {
   FirebaseFirestore _db = FirebaseFirestore.instance;
   FirebaseAuth _auth = FirebaseAuth.instance;
 
+  ProfileController _profileCtrl = Get.put(ProfileController());
+
+  registerPushNotification() {
+    FirebaseMessaging.instance.getToken().then((token) {
+      print(token);
+      _profileCtrl.updateProfile({
+        "pushToken": token,
+      });
+    }).catchError((e) => {print(e)});
+  }
+
   readUserDetails() {
     _db
         .collection('accounts')
@@ -38,6 +50,7 @@ class _AccountPageState extends State<AccountPage> {
         profileImage = res.data()['imageURL'];
         title = res.data()['name'];
         phoneNumber = res.data()['phoneNumber'];
+        _profileCtrl.userObj["pushToken"] = res.data()['pushToken'];
       });
     });
   }
@@ -70,16 +83,44 @@ class _AccountPageState extends State<AccountPage> {
               child: Text('Edit'),
             ),
           ),
-          ListTile(
-            leading: Icon(
-              Icons.notifications_active_outlined,
-              color: Colors.green,
-            ),
-            title: Text('Notifications'),
-            subtitle: Text('Turn On/Off Notifications'),
-            trailing: Switch(
-              value: true,
-              onChanged: (i) {},
+          // Obx(
+          //   () => ListTile(
+          //     leading: Icon(
+          //       Icons.notifications_active_outlined,
+          //       color: Colors.green,
+          //     ),
+          //     title: Text('Notifications'),
+          //     subtitle: Text('Turn On/Off Notifications'),
+          //     trailing: Switch(
+          //       onChanged: (res) {
+          //         if (res) {
+          //           registerPushNotification();
+          //         } else {
+          //           _profileCtrl.updateProfile({
+          //             "pushToken": null,
+          //           });
+          //         }
+          //       },
+          //       value: _profileCtrl.userObj['pushToken'] == null ? false : true,
+          //     ),
+          //   ),
+          // ),
+          Obx(
+            () => ListTile(
+              leading: Icon(Icons.notifications_active_outlined,
+                  color: Colors.green),
+              title: Text("Notifications"),
+              subtitle: Text("Turn on/off Notification"),
+              trailing: Switch(
+                onChanged: (res) {
+                  if (res) {
+                    registerPushNotification();
+                  } else {
+                    _profileCtrl.updateProfile({"pushToken": null});
+                  }
+                },
+                value: _profileCtrl.userObj["pushToken"] != null ? true : false,
+              ),
             ),
           ),
           ListTile(
