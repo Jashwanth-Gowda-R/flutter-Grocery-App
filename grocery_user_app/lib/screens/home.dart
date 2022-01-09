@@ -3,6 +3,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:grocery_user_app/custom-widgets/categories_badge.dart';
 import 'package:grocery_user_app/custom-widgets/product_card.dart';
 
@@ -155,8 +156,13 @@ class _HomePageState extends State<HomePage> {
                   scrollDirection: Axis.horizontal,
                   itemCount: _categories.length,
                   itemBuilder: (bc, index) {
-                    return CategoriesBadge(
-                      title: _categories[index]['title'],
+                    return GestureDetector(
+                      child: CategoriesBadge(
+                        title: _categories[index]['title'],
+                      ),
+                      onTap: () {
+                        print(_categories[index]['id']);
+                      },
                     );
                   }),
             ),
