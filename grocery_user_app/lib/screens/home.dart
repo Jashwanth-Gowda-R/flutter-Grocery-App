@@ -69,6 +69,10 @@ class _HomePageState extends State<HomePage> {
   FirebaseFirestore _db = FirebaseFirestore.instance;
 
   var _products = [];
+  // var _categoryID;
+  var _categoryID = 'rb4Y2PeSpGd6UkfxDsw9';
+
+  var _productsByID = [];
 
   fetchProducts() {
     _db.collection('products').snapshots().listen((value) {
@@ -78,7 +82,34 @@ class _HomePageState extends State<HomePage> {
       });
       setState(() {
         _products = temp;
+        // print(_products);
+        if (_categoryID == 'rb4Y2PeSpGd6UkfxDsw9') {
+          setState(() {
+            _productsByID = _products;
+            print(_productsByID);
+          });
+        }
       });
+    });
+  }
+
+  fetchProductsbyCategoryId() {
+    var temp = [];
+    _products.forEach((product) {
+      if (product['categoryId'] == _categoryID) {
+        temp.add(product);
+        print(product);
+        print(temp);
+        setState(() {
+          _productsByID = temp;
+          print(_productsByID);
+        });
+      } else if (_categoryID == 'rb4Y2PeSpGd6UkfxDsw9') {
+        setState(() {
+          _productsByID = _products;
+          print(_productsByID);
+        });
+      }
     });
   }
 
@@ -87,6 +118,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     fetchProducts();
     fetchCategories();
+    fetchProductsbyCategoryId();
   }
 
   // List _categories = [
@@ -113,6 +145,7 @@ class _HomePageState extends State<HomePage> {
       });
       setState(() {
         _categories = temp;
+        // print(_categories);
       });
     });
   }
@@ -161,7 +194,12 @@ class _HomePageState extends State<HomePage> {
                         title: _categories[index]['title'],
                       ),
                       onTap: () {
-                        print(_categories[index]['id']);
+                        // print(_categories[index]['id']);
+                        setState(() {
+                          _categoryID = _categories[index]['id'];
+                          fetchProductsbyCategoryId();
+                        });
+                        // print(_categoryID);
                       },
                     );
                   }),
@@ -175,13 +213,21 @@ class _HomePageState extends State<HomePage> {
                     crossAxisSpacing: 4,
                     mainAxisSpacing: 4,
                   ),
-                  itemCount: _products.length,
+                  itemCount: _productsByID.length ?? _products.length,
                   itemBuilder: (bc, index) {
                     return ProductCard(
-                      id: _products[index]["id"],
-                      imageURL: _products[index]["imgURL"],
-                      title: _products[index]['title'],
-                      price: _products[index]['price'],
+                      id: _productsByID.length == null
+                          ? _products[index]["id"]
+                          : _productsByID[index]["id"],
+                      imageURL: _productsByID.length == null
+                          ? _products[index]["imgURL"]
+                          : _productsByID[index]["imgURL"],
+                      title: _productsByID.length == null
+                          ? _products[index]['title']
+                          : _productsByID[index]['title'],
+                      price: _productsByID.length == null
+                          ? _products[index]['price']
+                          : _productsByID[index]['price'],
                     );
                   }),
             ),
