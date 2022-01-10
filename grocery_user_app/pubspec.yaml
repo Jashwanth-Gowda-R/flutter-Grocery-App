@@ -46,7 +46,7 @@ dependencies:
   firebase_messaging: ^11.2.5
   google_maps_flutter: ^2.1.1
   location: ^4.3.0
-  geocoding: ^2.0.1
+  geocoder: ^0.2.1
 
 dev_dependencies:
   flutter_test:
