@@ -3,7 +3,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:grocery_admin_app/controllers/profile.dart';
 import 'package:grocery_admin_app/screens/profile.dart';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -17,6 +20,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   FirebaseFirestore _db = FirebaseFirestore.instance;
 
+  ProfileController _profileCtrl = Get.put(ProfileController());
+
+  registerPushNotification() {
+    FirebaseMessaging.instance.getToken().then((token) {
+      print(token);
+      _profileCtrl.updateStoreDetail({
+        "pushToken": token,
+      });
+    }).catchError((e) => {print(e)});
+  }
+
   readStoreDetails() {
     _db.collection('settings').doc('store').snapshots().listen((res) {
       print(res);
@@ -26,6 +40,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         profileImage = res.data()['imageURl'];
         title = res.data()['name'];
         address = res.data()['address'];
+        _profileCtrl.userObj["pushToken"] = res.data()['pushToken'];
       });
     });
   }
@@ -59,13 +74,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: Text("Edit"),
               ),
             ),
-            ListTile(
-              leading: Icon(Icons.notifications_active_outlined),
-              title: Text("Notifications"),
-              subtitle: Text("Manage Notifications"),
-              trailing: Switch(
-                onChanged: (i) {},
-                value: true,
+            // ListTile(
+            //   leading: Icon(Icons.notifications_active_outlined),
+            //   title: Text("Notifications"),
+            //   subtitle: Text("Manage Notifications"),
+            //   trailing: Switch(
+            //     onChanged: (i) {},
+            //     value: true,
+            //   ),
+            // ),
+            Obx(
+              () => ListTile(
+                leading: Icon(Icons.notifications_active_outlined,
+                    color: Colors.green),
+                title: Text("Notifications"),
+                subtitle: Text("Turn on/off Notification"),
+                trailing: Switch(
+                  onChanged: (res) {
+                    if (res) {
+                      registerPushNotification();
+                    } else {
+                      _profileCtrl.updateStoreDetail({"pushToken": null});
+                    }
+                  },
+                  value:
+                      _profileCtrl.userObj["pushToken"] != null ? true : false,
+                ),
               ),
             ),
           ],
