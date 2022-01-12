@@ -1,8 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, sized_box_for_whitespace
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grocery_user_app/controller/address.dart';
+
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ManageAddress extends StatefulWidget {
   bool canedit = false;
@@ -21,6 +25,10 @@ class _ManageAddressState extends State<ManageAddress> {
   TextEditingController _pincodefield = TextEditingController();
 
   AddressController _addressCtrl = Get.put(AddressController());
+
+  Completer<GoogleMapController> _controller = Completer();
+  double _lat = 12.9716;
+  double _lng = 77.5946;
 
   @override
   void initState() {
@@ -42,11 +50,22 @@ class _ManageAddressState extends State<ManageAddress> {
         child: Column(
           children: [
             Container(
-              child: Image.asset(
-                'assets/images/map.png',
-                fit: BoxFit.cover,
+              // child: Image.asset(
+              //   'assets/images/map.png',
+              //   fit: BoxFit.cover,
+              // ),
+              // width: double.infinity,
+              child: GoogleMap(
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(_lat, _lng),
+                  zoom: 12,
+                ),
+                onMapCreated: (res) {
+                  _controller.complete(res);
+                  // fetchMyLocation();
+                },
               ),
-              width: double.infinity,
+              height: 280,
             ),
             Container(
               child: Padding(
