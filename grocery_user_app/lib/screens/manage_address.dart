@@ -1,12 +1,16 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, sized_box_for_whitespace
 
 import 'dart:async';
+// import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:grocery_user_app/controller/address.dart';
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
+
+import 'package:grocery_user_app/controller/address.dart';
 
 class ManageAddress extends StatefulWidget {
   bool canedit = false;
@@ -40,6 +44,57 @@ class _ManageAddressState extends State<ManageAddress> {
     _pincodefield.text = widget.address['pincode'];
   }
 
+  generateAddress(lat, lng) async {
+    List<Placemark> placemarkers = await placemarkFromCoordinates(lat, lng);
+    print(placemarkers[0]);
+
+    var addressText =
+        "${placemarkers[0].subThoroughfare}, ${placemarkers[0].thoroughfare}, ${placemarkers[0].subLocality}, ${placemarkers[0].locality}";
+
+    _addressfield.text = addressText;
+    _pincodefield.text = placemarkers[0].postalCode.toString();
+  }
+
+  fetchMyLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    if (!serviceEnabled) {
+      print("Service error");
+      return;
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        print("Permission Error");
+        return;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      print("Permission deinied forever");
+    }
+
+    await Geolocator.getCurrentPosition().then((res) async {
+      final GoogleMapController controller = await _controller.future;
+
+      final _position = CameraPosition(
+        target: LatLng(res.latitude, res.longitude),
+        zoom: 12,
+      );
+      controller.animateCamera(CameraUpdate.newCameraPosition(_position));
+      setState(() {
+        _lat = res.latitude;
+        _lng = res.longitude;
+      });
+      generateAddress(_lat, _lng);
+    }).catchError((e) => print(e));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +117,16 @@ class _ManageAddressState extends State<ManageAddress> {
                 ),
                 onMapCreated: (res) {
                   _controller.complete(res);
-                  // fetchMyLocation();
+                  fetchMyLocation();
+                },
+                markers: {
+                  Marker(
+                      markerId: MarkerId("current"),
+                      position: LatLng(_lat, _lng),
+                      draggable: true,
+                      onDragEnd: (latlng) {
+                        generateAddress(latlng.latitude, latlng.longitude);
+                      })
                 },
               ),
               height: 280,
