@@ -42,6 +42,8 @@ class _ManageAddressState extends State<ManageAddress> {
     _mobilefield.text = widget.address['mobile'];
     _addressfield.text = widget.address['address'];
     _pincodefield.text = widget.address['pincode'];
+
+    generateAddress(_lat, _lng);
   }
 
   generateAddress(lat, lng) async {
