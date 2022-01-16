@@ -107,7 +107,7 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
           .then((res) {
         print(res);
         res.ref.getDownloadURL().then((url) {
-          print('uploadedm url' + url);
+          print('uploaded url' + url);
           setState(() {
             imageurl = url;
           });
