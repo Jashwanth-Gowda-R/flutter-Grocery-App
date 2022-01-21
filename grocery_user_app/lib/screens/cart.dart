@@ -169,10 +169,12 @@ class CartPage extends StatelessWidget {
                                   "Are You sure want to place this order?"),
                               onConfirm: () {
                                 _orderCtrl.createOrder();
+                                _cartCtrl.clearCart();
                                 Get.back();
                               },
                               onCancel: () {
                                 Get.back();
+                                _cartCtrl.clearCart();
                               });
                         },
                         child: Obx(
